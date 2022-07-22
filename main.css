@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,400&display=swap');
 
+/* Theme colors */
 :root {
     --berry: #8c1d46;
     --branch: #3a2a2a;
@@ -8,6 +9,8 @@
     --berry-beige: #eedddc;
 }
 
+
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -16,37 +19,39 @@
     background-color: var(--berry-beige);
 }
 
-a {
-   color: var(--berry); 
-}
 
-.container {
-    justify-content: center;
-    align-content: center;
-    max-width: 800px;
-}
-
+/* Globals */
 h1, h2, h3, h4 {
     margin: 2em 15px 5px;
     font-weight: 500;
 }
+
 
 subtitle {
     font-style: italic;
     margin: 5px 15px;
 }
 
+
 p {
     margin: 0.5em 15px;
 }
+
 
 noscript {
     color: var(--berry);
 }
 
+
+a {
+    color: var(--berry); 
+}
+
+
 strong {
     font-weight: 500;
 }
+
 
 button {
     border: 1px solid var(--berry);
@@ -55,6 +60,7 @@ button {
     background: var(--leaf-light);
     font-size: 16px;
 }
+
 
 input[type="string"] {
     border: 1px solid var(--berry);
@@ -67,6 +73,14 @@ input[type="string"] {
 input[type="range"] {
     color: var(--leaf-dark);
     background-color: var(--leaf-light);
+}
+
+
+/* Particular elements, roughly in order of appearance */
+.container {
+    justify-content: center;
+    align-content: center;
+    max-width: 800px;
 }
 
 div.logo-wrapper {
@@ -86,7 +100,6 @@ div.logo-wrapper img {
 .add-remove-school button {
     margin: 5px 15px;
 }
-
 
 li.school-entry-row {
     display: grid;

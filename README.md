@@ -2,7 +2,7 @@
 
 # Mulberry
 
-… is a college application strategist.
+… is a college application strategist. The user interface is at [maxkapur.com/mulberry/](https://maxkapur.com/mulberry/).
 
 You input estimates of your admissions chances at each school and 
 the amount of utility you associate with going there, 

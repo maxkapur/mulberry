@@ -23,9 +23,15 @@ class College {
     }
 }
 
+
+// This logs a single assertion error to the console; no problem
 const DUMMY_COLLEGE = new College("Dummy", 0.0, -1.0);
+
+
+// For generating random colleges
 const ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Multiplicative Northernmost Overrated Practical Qualitative Wicked XYZ Yesterday Zealous".split(' ')
 const NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy".split(",")
+
 
 // Generate a random college name to serve as a placeholder for user input.
 function randomCollegeName() {
@@ -36,7 +42,7 @@ function randomCollegeName() {
 
 
 // Compute the application order, given an array of colleges
-// Modifies colleges in place
+// Modifies colleges in place, so cannot be used repetitively
 function applicationOrder(colleges) {
     let m = colleges.length;
 
@@ -96,33 +102,9 @@ function applicationOrder(colleges) {
     return [x, v];
 }
 
-function test() {
-    const colleges = [
-        new College("Mercury", 0.20, 4.0),
-        new College("Venus", 0.40, 2.0),
-        new College("Mars", 0.20, 5.0),
-        new College("Jupiter", 0.10, 7.0),
-        new College("Saturn", 0.80, 0.8),
-        new College("Uranus", 0.20, 4.1),
-    ];
 
-    const res = applicationOrder(colleges);
-
-    const x = res[0];
-    const v = res[1];
-
-    console.log(x);
-    console.log(v);
-}
-
-
-function init() {
-    for (let _ = 0; _ < 5; _++) {
-        addCollegeEntry();
-    }
-}
-
-
+// Building blocks for a college input row:
+// Name entry
 function make_nameInputWrapper(j, name) {
     let nameInputWrapper = document.createElement("div");
     nameInputWrapper.setAttribute("id", `name-input-wrapper-${j}`);
@@ -134,6 +116,8 @@ function make_nameInputWrapper(j, name) {
     return nameInputWrapper;
 }
 
+
+// Admit probability entry
 function make_fInputWrapper(j, f) {
     let fInputWrapper = document.createElement("div");
     fInputWrapper.setAttribute("id", `f-input-wrapper-${j}`)
@@ -152,6 +136,8 @@ function make_fInputWrapper(j, f) {
     return fInputWrapper;
 }
 
+
+// Utility entry
 function make_tInputWrapper(j, t) {
     let tInputWrapper = document.createElement("div");
     tInputWrapper.setAttribute("id", `t-input-wrapper-${j}`)
@@ -171,16 +157,22 @@ function make_tInputWrapper(j, t) {
 }
 
 
+// Called on input
 function update_f_label(j) {
     let newValue = document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value;
     document.getElementById(`f-input-wrapper-${j}`).lastElementChild.innerText = `${newValue}%`;
 }
 
+
+// Called on input
 function update_t_label(j) {
     let newValue = document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value;
     document.getElementById(`t-input-wrapper-${j}`).lastElementChild.innerText = `${newValue}`;
 }
 
+
+// Generate a new college entry row, with HTML element identifier j
+// for later selection
 function newCollegeEntryWithIdx(j) {
     let newCollegeEntry = document.createElement("li");
     newCollegeEntry.setAttribute("class", "school-entry-row");
@@ -197,9 +189,13 @@ function newCollegeEntryWithIdx(j) {
 }
 
 
+// Total number of colleges the user has entered (including deletions)
 var collegeCounter = 0;
+// Set of college indices that haven't been deleted
 var collegeIdxs = [];
 
+
+// When the user clicks the add college button:
 function addCollegeEntry() {
     let j = collegeCounter;
     collegeIdxs.push(j);
@@ -210,6 +206,7 @@ function addCollegeEntry() {
 }
 
 
+// When the user clicks the remove college button:
 function removeCollegeEntry() {
     if (document.getElementById("school-input-area").childElementCount > 1) {
         let lastEntry = document.getElementById("school-input-area").lastElementChild;
@@ -221,6 +218,8 @@ function removeCollegeEntry() {
 }
 
 
+// When the user clicks the calculate button:
+// Pass the input colleges to the solver and output results in results area
 function calculate() {
     document.getElementById("results-intro-text").innerText = "Computing results …";
 
@@ -261,3 +260,11 @@ function calculate() {
     }
 }
 
+
+// Runs on page load
+function init() {
+    // Populate the input area with some random colleges
+    for (let _ = 0; _ < 5; _++) {
+        addCollegeEntry();
+    }
+}
