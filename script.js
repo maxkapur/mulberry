@@ -145,7 +145,7 @@ function make_tInputWrapper(j, t) {
     let tInput = document.createElement("input");
     tInput.setAttribute("type", "range");
     tInput.setAttribute("min", "1");
-    tInput.setAttribute("max", "50");
+    tInput.setAttribute("max", "500");
     tInput.setAttribute("step", "1");
     tInput.setAttribute("value", t);
     tInput.setAttribute("oninput", `update_t_label(${j})`);
@@ -178,8 +178,8 @@ function newCollegeEntryWithIdx(j) {
     newCollegeEntry.setAttribute("class", "school-entry-row");
 
     let name = randomCollegeName();
-    let t = Math.min(25, Math.ceil(-Math.log(Math.random()) * 10));
-    let f = Math.ceil(100 / t);
+    let t = Math.min(500, Math.ceil(-Math.log(Math.random()) * 250));
+    let f = Math.ceil(100 / Math.sqrt(t));
 
     newCollegeEntry.appendChild(make_nameInputWrapper(j, name));
     newCollegeEntry.appendChild(make_fInputWrapper(j, f));
@@ -244,8 +244,8 @@ function calculate() {
         let resultV = document.createElement("label");
         resultV.setAttribute("class", "v-result");
         resultV.innerText = results[1][i].toLocaleString('en-US', {
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
         });
 
         let resultRow = document.createElement("li");
@@ -261,10 +261,19 @@ function calculate() {
 }
 
 
+const RETAIL_OUTLETS = "7/11,Best Buy,Radioshack,Target,the deli,Chipotle".split(",")
+
+// Populate the retail outlet with a retail outlet
+function populateRetailOutlet() {
+    document.getElementById("retail-outlet").innerText = RETAIL_OUTLETS[Math.floor(Math.random() * RETAIL_OUTLETS.length)];
+}
+
 // Runs on page load
-function init() {    
+function init() {
     // Populate the input area with some random colleges
     for (let _ = 0; _ < 5; _++) {
         addCollegeEntry();
     }
+
+    populateRetailOutlet();
 }
