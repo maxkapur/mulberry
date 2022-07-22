@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mulberry College Application Strategist</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body onload="init()">
+    <div class="container">
+        <h1>Mulberry</h1>
+        <subtitle>A college application strategist</subtitle>
+
+        <div class="add-remove-school">
+            <button id="add-school-button" onclick="addCollegeEntry()">Add a school</button>
+            <button id="remove-school-button" onclick="removeCollegeEntry()">Remove a school</button>
+        </div>
+
+        <ul id="school-input-area">
+            <li class="school-entry-row">
+                <label>School name</label>
+                <label>Admissions probability</label>
+                <label>Utility value</label>
+            </li>
+        </ul>
+
+        <button id="calculate-button" type="submit" onclick="calculate()">Calculate app order</button>
+
+        <h2>Results:</h2>
+        <ol id="results-area">
+            Results will appear here.
+        </ol>
+    </div>
+
+</body>
+
+</html>
