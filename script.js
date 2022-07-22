@@ -222,6 +222,11 @@ function removeCollegeEntry() {
 
 
 function calculate() {
+    document.getElementById("results-intro-text").innerText = "Computing results …";
+
+    let resultsArea = document.getElementById("results-area")
+    resultsArea.innerText = "";
+
     const colleges = collegeIdxs.map(
         function (j, _) {
             let name = document.getElementById(`name-input-wrapper-${j}`).firstElementChild.value;
@@ -232,8 +237,8 @@ function calculate() {
     );
 
     const results = applicationOrder(colleges);
-    let resultsArea = document.getElementById("results-area")
-    resultsArea.innerText = "";
+
+    document.getElementById("results-intro-text").innerText = "Your optimal application order and the corresponding expected utility values:";
 
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");

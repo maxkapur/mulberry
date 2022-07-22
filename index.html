@@ -9,45 +9,160 @@
     <link rel="stylesheet" href="main.css">
     <script src="script.js" defer></script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/resources/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon-16x16.png">
-    <link rel="manifest" href="/resources/site.webmanifest">
-    <link rel="mask-icon" href="/resources/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/resources/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="resources/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="resources/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="resources/favicon-16x16.png">
+    <link rel="manifest" href="resources/site.webmanifest">
+    <link rel="mask-icon" href="resources/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="resources/favicon.ico">
     <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/resources/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-config" content="resources/browserconfig.xml">
+    <meta name="theme-color" content="#71b6a1">
 </head>
 
 <body onload="init()">
     <div class="container">
         <h1>Mulberry</h1>
-        <subtitle>A college application strategist</subtitle>
+        <subtitle>A college application strategist.</subtitle>
+        
+        <noscript>
+            <p>This website requires JavaScript.</p>
+        </noscript>
+
+        <div class="logo-wrapper">
+            <img width="200" height="200" src="resources/logo-big.png"
+                alt="The Mulberry logo, showing a magenta berry and a green leaf">
+        </div>
+
+        <h2>Introduction</h2>
+
+        <p>
+            Applying to college is kinda hard. You have to figure out which schools you like,
+            and you also have to figure out which schools you actually have a good chance of
+            getting into. That’s <strong>problem 1.</strong>
+        </p>
+
+        <p>
+            Even if you have this information, it is tough to decide how best to allocate
+            your limited applications across “reach schools” (which are hard to get into
+            but highly desirable) and “safety schools” (which are easier to get into but
+            not as attractive). That’s <strong>problem 2.</strong>
+        </p>
+
+        <p>
+            There’s an overwhelming number of “chance me!” websites that can help you with
+            problem 1. But when it comes to problem 2, people tend to resort to folk wisdom,
+            risk-averse heuristics, and gut feelings. It’s not wrong to consult these sources.
+            But Mulberry helps give you an objective view of <strong>problem 2.</strong>
+        </p>
+
+        <p>
+            You input estimates of your admissions chances at each school and
+            the amount of utility you associate with going there,
+            and Mulberry sorts the schools in the order you should apply
+            to them in order to maximize your expected utility.
+        </p>
+
+        <p>
+            We’ve randomly generated a few colleges to get you started. 
+        </p>
 
         <div class="add-remove-school">
-            <button id="add-school-button" onclick="addCollegeEntry()">Add a school</button>
-            <button id="remove-school-button" onclick="removeCollegeEntry()">Remove a school</button>
+            <button id="add-school-button" onclick="addCollegeEntry()">➕ Add a school</button>
+            <button id="remove-school-button" onclick="removeCollegeEntry()">➖ Remove a school</button>
         </div>
 
         <ul id="school-input-area">
             <li class="school-entry-row">
-                <label class="school-entry-header">School name</label>
-                <label class="school-entry-header">Admissions probability</label>
-                <label class="school-entry-header">Utility value</label>
+                <label class="school-entry-header">🏫 School name</label>
+                <label class="school-entry-header">🎲 Admissions probability</label>
+                <label class="school-entry-header">💰 Utility value</label>
             </li>
         </ul>
 
         <div id="calculate-button-wrapper">
-            <button type="submit" onclick="calculate()">Calculate app order</button>
+            <button type="submit" onclick="calculate()">🪄 Calculate application order</button>
         </div>
 
         <h2>Results</h2>
         <div id="results-area-wrapper">
+            <p id="results-intro-text">… will appear here.</p>
             <ol id="results-area">
-                Results will appear here.
             </ol>
         </div>
+
+        <h2>How should I determine my utility values?</h2>
+
+        <p>
+            College preferability isn’t exactly a linear thing—some schools might
+            offer a better student experience, whereas others might offer better job
+            prospects. It’s up to you to decide how to trade off these various factors.
+        </p>
+
+        <p>
+            <a href="https://en.wikipedia.org/wiki/Utility">Utility</a> is an economic
+            concept that involves assigning numbers to how much you value things.
+            Even though people can’t always <em>say</em> what price they place on
+            something, sometimes they <em>reveal</em> it by, for example, canceling their
+            Netflix subscription after a certain price increase.
+        </p>
+
+        <p>
+            One way to get a utility estimate for the schools you are considering
+            is by answering the following question: <em>If a letter of admission to
+                this college went up for auction, how much money would I be willing
+                to pay for it?</em> Then divide your answer by some constant so you can
+            fit it in the scale above.
+        </p>
+
+        <h2>How does it work?</h2>
+        <p>
+            Your goal, in applying to college, is (probably) to maximize the utility of
+            the <em>best</em> school you get into. If you apply to just one school, then
+            your expected utility is the admissions probability times the utility value.
+            But if you apply to many schools, your expected utility is a conditional
+            expression that depends on whether you get into your first choice, your second
+            choice, and so on.
+        </p>
+
+        <p>
+            It turns out that the optimal application strategy, under these assumptions, 
+            can be characterized by a permutation of the schools. If you can only apply to one
+            college, you should apply to the first school in that permutation; if you can 
+            apply to two colleges, you should apply to the first two, and so on.
+        </p>
+
+        <p>
+            Mulberry takes your admissions probabilities and utility evaluations and 
+            outputs this permutation. The underlying algorithm is described in my
+            <a href="https://github.com/maxkapur/CollegeApplication">MS thesis</a>.
+        </p>
+
+        <h2>
+            About the code
+        </h2>
+
+        <p>
+            This website is hosted using GitHub pages. You can read all the code
+            <a href="https://github.com/maxkapur/mulberry">here</a>. There are no
+            cookies: all the data you input lives on your computer, and if you
+            refresh the page it will disappear.
+        </p>
+
+        <p>
+            If you find any bugs or have a question, submit a pull request on
+            GitHub or email me at <a href="mailto:maxkapur@gmail.com">maxkapur@gmail.com</a>
+        </p>
+
+        <p>
+            The logo is derived from a Wikimedia Commons image by user
+            <a href="https://en.wikipedia.org/wiki/Morus_(plant)#/media/File:Wild_mulberry.jpg">
+            Geo Lightspeed7</a>.
+        </p>
+
+        <p>
+            My homepage is <a href="https://maxkapur.com">maxkapur.com</a>.
+        </p>
     </div>
 
 </body>
