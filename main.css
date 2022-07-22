@@ -1,10 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,400&display=swap');
+
 * {
     margin: 0;
     padding: 0;
-}
-
-h1, h2 {
-    grid-column: 1 / -1;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
 
 .container {
@@ -13,21 +13,96 @@ h1, h2 {
     max-width: 800px;
 }
 
+h1, h2, h3, h4 {
+    margin: 2em 15px 5px;
+    font-weight: 500;
+}
+
+subtitle {
+    font-style: italic;
+    margin: 5px 15px;
+}
+
 .add-remove-school {
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
+.add-remove-school button {
+    margin: 5px 15px;
+}
 
-.school-entry-row {
+
+li.school-entry-row {
     display: grid;
     grid-template-columns: 40% 30% 30%;
 }
 
-#results-area li {
+label.school-entry-header {
+    font-weight: 500;
+    margin: 5px 15px;
+}
+
+div.name-input-wrapper input[type="string"] {
+    width: 90%;
+    margin: 5px 15px;
+}
+
+div.t-input-wrapper,
+div.f-input-wrapper {
+    display: grid;
+    grid-template-columns: auto 3em;
+    margin: 5px 15px;
+}
+
+div.t-input-wrapper input[type="range"],
+div.f-input-wrapper input[type="range"] {
+    width: 90%; 
+    display: block;
+}
+
+div.t-input-wrapper label,
+div.f-input-wrapper label {
+    display: block;
+}
+
+#calculate-button-wrapper {
+    text-align: center;
+}
+
+#calculate-button-wrapper button {
+    min-width: 300px;
+}
+
+#results-area-wrapper {
+    text-align: center;
+}
+
+#results-area {
+    max-width: 500px;
+    display: block;
+    list-style-type: decimal;
+    margin-left: 1em;
+    padding-left: 1em;
+}
+
+div.result-labels-wrapper {
     display: grid;
     grid-template-columns: 50% 50%;
+    /* padding: 0.5em 2em; */
 }
+
+#results-area label.x-result {
+    text-align: left;
+}
+
+#results-area label.v-result {
+    font-feature-settings: 'tnum';
+    -webkit-font-feature-settings: 'tnum';
+    -moz-font-feature-settings: 'tnum';
+    text-align: right;
+}
+
 
 /* * {
     margin: 0;
@@ -86,7 +161,7 @@ input {
     border-radius: 8px;
 }
 
-input {
+input {Qualitative College 1.080 Absolute Conservatory 1.978 Kramer Academy 2.678 Absolute Conservatory 3.143 XYZ Arts Institute 3.375
     background: #ffdd99;
     text-indent: 0.5em;
     max-width: 100%;

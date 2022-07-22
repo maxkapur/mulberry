@@ -22,18 +22,22 @@
 
         <ul id="school-input-area">
             <li class="school-entry-row">
-                <label>School name</label>
-                <label>Admissions probability</label>
-                <label>Utility value</label>
+                <label class="school-entry-header">School name</label>
+                <label class="school-entry-header">Admissions probability</label>
+                <label class="school-entry-header">Utility value</label>
             </li>
         </ul>
 
-        <button id="calculate-button" type="submit" onclick="calculate()">Calculate app order</button>
+        <div id="calculate-button-wrapper">
+            <button type="submit" onclick="calculate()">Calculate app order</button>
+        </div>
 
-        <h2>Results:</h2>
-        <ol id="results-area">
-            Results will appear here.
-        </ol>
+        <h2>Results</h2>
+        <div id="results-area-wrapper">
+            <ol id="results-area">
+                Results will appear here.
+            </ol>
+        </div>
     </div>
 
 </body>

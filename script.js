@@ -1,8 +1,8 @@
 // Holds the name, admissions probability, and utility associated with a college
 class College {
     constructor(name, f, t) {
-        // assert 0 < f <= 1, "Need 0 < f ≤ 1"
-        // assert 0 <= t, "Need 0 ≤ t"
+        console.assert(0 < f <= 1, f);
+        console.assert(t > 0, t);
         this.name = name;
         this.f = f;
         this.t = t;
@@ -23,6 +23,7 @@ class College {
     }
 }
 
+const DUMMY_COLLEGE = new College("Dummy", 0.0, -1.0);
 const ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Multiplicative Northernmost Overrated Practical Qualitative Wicked XYZ Yesterday Zealous".split(' ')
 const NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy".split(",")
 
@@ -39,7 +40,7 @@ function randomCollegeName() {
 function applicationOrder(colleges) {
     let m = colleges.length;
 
-    let bestIdx = 0;
+    var bestIdx = 0;
 
     for (let i = 0; i < m; i++) {
         if (colleges[i].ft >= colleges[bestIdx].ft) {
@@ -53,13 +54,16 @@ function applicationOrder(colleges) {
     const v = [bestC.ft];
 
     for (let j = 0; j < m - 1; j++) {
+        
+        console.log(colleges);
+
         if (j > 0) {
             x.push(bestC.name);
             v.push(v[j - 1] + bestC.ft);
         }
 
-        let newBestIdx = 0;
-        let newBestC = colleges[0];
+        let newBestIdx = -1;
+        let newBestC = DUMMY_COLLEGE;
 
         for (let i = 0; i < bestIdx; i++) {
             colleges[i] = colleges[i].discount(bestC);
@@ -85,6 +89,9 @@ function applicationOrder(colleges) {
 
     x.push(bestC.name);
     v.push(v[m - 2] + bestC.ft);
+
+    console.log(x);
+    console.log(v);
 
     return [x, v];
 }
@@ -119,8 +126,8 @@ function init() {
 function make_nameInputWrapper(j, name) {
     let nameInputWrapper = document.createElement("div");
     nameInputWrapper.setAttribute("id", `name-input-wrapper-${j}`);
+    nameInputWrapper.setAttribute("class", "name-input-wrapper");
     let nameInput = document.createElement("input");
-    nameInput.setAttribute("class", "name-input");
     nameInput.setAttribute("type", "string");
     nameInput.setAttribute("value", name);
     nameInputWrapper.appendChild(nameInput);
@@ -130,8 +137,8 @@ function make_nameInputWrapper(j, name) {
 function make_fInputWrapper(j, f) {
     let fInputWrapper = document.createElement("div");
     fInputWrapper.setAttribute("id", `f-input-wrapper-${j}`)
+    fInputWrapper.setAttribute("class", "f-input-wrapper");
     let fInput = document.createElement("input");
-    fInput.setAttribute("class", "f-input");
     fInput.setAttribute("type", "range");
     fInput.setAttribute("min", "1");
     fInput.setAttribute("max", "100");
@@ -148,8 +155,8 @@ function make_fInputWrapper(j, f) {
 function make_tInputWrapper(j, t) {
     let tInputWrapper = document.createElement("div");
     tInputWrapper.setAttribute("id", `t-input-wrapper-${j}`)
+    tInputWrapper.setAttribute("class", "t-input-wrapper");
     let tInput = document.createElement("input");
-    tInput.setAttribute("class", "t-input");
     tInput.setAttribute("type", "range");
     tInput.setAttribute("min", "1");
     tInput.setAttribute("max", "50");
@@ -198,7 +205,7 @@ function addCollegeEntry() {
     collegeIdxs.push(j);
     document.getElementById("school-input-area").appendChild(
         newCollegeEntryWithIdx(j)
-        );
+    );
     collegeCounter++;
 }
 
@@ -216,10 +223,10 @@ function removeCollegeEntry() {
 
 function calculate() {
     const colleges = collegeIdxs.map(
-        function(j, _) {
+        function (j, _) {
             let name = document.getElementById(`name-input-wrapper-${j}`).firstElementChild.value;
-            let f = document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value / 100;
-            let t = document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value;
+            let f = parseFloat(document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value) / 100;
+            let t = parseFloat(document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value);
             return new College(name, f, t);
         }
     );
@@ -227,16 +234,24 @@ function calculate() {
     const results = applicationOrder(colleges);
     let resultsArea = document.getElementById("results-area")
     resultsArea.innerText = "";
-    
+
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
+        resultX.setAttribute("class", "x-result");
         resultX.innerText = results[0][i];
         let resultV = document.createElement("label");
-        resultV.innerText = results[1][i];
-        
+        resultV.setAttribute("class", "v-result");
+        resultV.innerText = results[1][i].toLocaleString('en-US', {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3,
+        });
+
         let resultRow = document.createElement("li");
-        resultRow.appendChild(resultX);
-        resultRow.appendChild(resultV);
+        let resultLabelsWrapper = document.createElement("div");
+        resultLabelsWrapper.setAttribute("class", "result-labels-wrapper");
+        resultLabelsWrapper.appendChild(resultX);
+        resultLabelsWrapper.appendChild(resultV);
+        resultRow.appendChild(resultLabelsWrapper)
         resultsArea.appendChild(resultRow);
     }
 }
