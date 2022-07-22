@@ -104,9 +104,9 @@
         <p>
             Your goal, in applying to college, is (probably) to maximize the utility of
             the <em>best</em> school you get into. If you apply to just one school, then
-            your expected utility is the admissions probability times the utility value.
+            your expected utility is its admissions probability times its utility value.
             But if you apply to many schools, your expected utility is a conditional
-            expression that depends on whether you get into your first choice, your second
+            probability expression that depends on whether you get into your first choice, your second
             choice, and so on.
         </p>
 
@@ -120,7 +120,16 @@
         </p>
 
         <p>
-            The underlying algorithm is described in my
+            The interesting thing is that the optimal permutation is <em>not</em> 
+            determined by simply sorting the schools by the products of their admissions probability
+            and utility values. This “obvious“ idea turns out to be incorrect—it can produce
+            a suboptimal ordering. To get the true optimum, you need to delve into
+            the conditional probabilities described above, and that’s exactly what
+            Mulberry does.
+        </p>
+
+        <p>
+            The underlying algorithm is detailed in my
             <a href="https://github.com/maxkapur/CollegeApplication">MS thesis</a>. 
             My thesis also deals with a more general form of the problem in which colleges
             have different application <em>fees</em> and you have a finite <em>budget</em>
