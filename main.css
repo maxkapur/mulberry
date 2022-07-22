@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 
 /* Theme colors */
 :root {
@@ -21,6 +21,10 @@
 
 
 /* Globals */
+body {
+    padding-bottom: 100px;
+}
+
 h1, h2, h3, h4 {
     margin: 2em 15px 5px;
     font-weight: 500;
@@ -45,16 +49,32 @@ noscript {
 
 a {
     color: var(--berry); 
+    text-decoration: none;
 }
 
+
+a:hover {
+    text-decoration: underline;
+}
 
 strong {
     font-weight: 500;
 }
 
 
+em {
+    font-style: italic;
+}
+
+
+strong em {
+    font-style: italic;
+    font-weight: 500;
+}
+
+
 button {
-    border: 1px solid var(--berry);
+    border: 1px solid var(--leaf-dark);
     border-radius: 10px;
     padding: 5px;
     background: var(--leaf-light);
@@ -63,12 +83,13 @@ button {
 
 
 input[type="string"] {
-    border: 1px solid var(--berry);
+    border: 1px solid var(--leaf-dark);
     border-radius: 5px;
     padding: 5px;
     background-color: var(--leaf-light);
     font-size: 14px;
 }
+
 
 input[type="range"] {
     color: var(--leaf-dark);
@@ -76,8 +97,15 @@ input[type="range"] {
 }
 
 
+button:hover,
+input[type="string"]:hover,
+input[type="range"]:hover {
+    border-color: var(--berry);
+}
+
+
 /* Particular elements, roughly in order of appearance */
-.container {
+div.container {
     justify-content: center;
     align-content: center;
     max-width: 800px;
@@ -91,6 +119,50 @@ div.logo-wrapper img {
     margin: 80px;
 }
 
+div.interface-container {
+    padding-top: 40px;
+}
+
+li.school-entry-row {
+    display: grid;
+    grid-template-columns: 30% 35% 35%;
+    margin: 10px 15px;
+}
+
+label.school-entry-header {
+    font-weight: 500;
+}
+
+div.name-input-wrapper {
+    padding-right: 30px;
+}
+
+div.name-input-wrapper input[type="string"] {
+    width: 100%; 
+}
+
+div.t-input-wrapper,
+div.f-input-wrapper {
+    display: grid;
+    grid-template-columns: auto 4em;
+}
+
+div.t-input-wrapper input[type="range"],
+div.f-input-wrapper input[type="range"] {
+    width: 100%; 
+    display: block;
+}
+
+div.t-input-wrapper label,
+div.f-input-wrapper label {
+    padding: 0 15px 0 5px;
+    display: block;
+    text-align: right;
+    font-feature-settings: 'tnum';
+    -webkit-font-feature-settings: 'tnum';
+    -moz-font-feature-settings: 'tnum';
+}
+
 .add-remove-school {
     display: grid;
     grid-template-columns: 50% 50%;
@@ -101,46 +173,13 @@ div.logo-wrapper img {
     margin: 5px 15px;
 }
 
-li.school-entry-row {
-    display: grid;
-    grid-template-columns: 40% 30% 30%;
-}
-
-label.school-entry-header {
-    font-weight: 500;
-    margin: 5px 15px;
-}
-
-div.name-input-wrapper input[type="string"] {
-    width: 90%;
-    margin: 5px 15px;
-}
-
-div.t-input-wrapper,
-div.f-input-wrapper {
-    display: grid;
-    grid-template-columns: auto 3em;
-    margin: 5px 15px;
-}
-
-div.t-input-wrapper input[type="range"],
-div.f-input-wrapper input[type="range"] {
-    width: 90%; 
-    display: block;
-}
-
-div.t-input-wrapper label,
-div.f-input-wrapper label {
-    display: block;
-}
-
 #calculate-button-wrapper {
     text-align: center;
     padding: 15px;
 }
 
 #calculate-button-wrapper button {
-    min-width: 300px;
+    min-width: 10em;
 }
 
 #results-area {

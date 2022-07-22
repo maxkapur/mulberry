@@ -221,8 +221,6 @@ function removeCollegeEntry() {
 // When the user clicks the calculate button:
 // Pass the input colleges to the solver and output results in results area
 function calculate() {
-    document.getElementById("results-intro-text").innerText = "Computing results …";
-
     let resultsArea = document.getElementById("results-area")
     resultsArea.innerText = "";
 
@@ -237,7 +235,7 @@ function calculate() {
 
     const results = applicationOrder(colleges);
 
-    document.getElementById("results-intro-text").innerText = "Your optimal application order and the corresponding expected utility values:";
+    document.getElementById("results-intro-text").innerText = "Your optimal application order and the corresponding utility values:";
 
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
@@ -246,8 +244,8 @@ function calculate() {
         let resultV = document.createElement("label");
         resultV.setAttribute("class", "v-result");
         resultV.innerText = results[1][i].toLocaleString('en-US', {
-            minimumFractionDigits: 3,
-            maximumFractionDigits: 3,
+            minimumFractionDigits: 4,
+            maximumFractionDigits: 4,
         });
 
         let resultRow = document.createElement("li");
@@ -258,11 +256,13 @@ function calculate() {
         resultRow.appendChild(resultLabelsWrapper)
         resultsArea.appendChild(resultRow);
     }
+
+    document.getElementById("results-outro-text").hidden = false;
 }
 
 
 // Runs on page load
-function init() {
+function init() {    
     // Populate the input area with some random colleges
     for (let _ = 0; _ < 5; _++) {
         addCollegeEntry();
