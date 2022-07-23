@@ -22,7 +22,7 @@
 
 /* Globals */
 body {
-    padding-bottom: 100px;
+    margin: 80px 15px;
     color: var(--branch);
 }
 
@@ -30,7 +30,7 @@ h1,
 h2,
 h3,
 h4 {
-    margin: 2em 15px 5px;
+    margin: 2em 0 5px;
     font-weight: 500;
     max-width: 600px;
 }
@@ -38,13 +38,13 @@ h4 {
 
 subtitle {
     font-style: italic;
-    margin: 5px 15px;
+    margin: 5px 0;
     max-width: 600px;
 }
 
 
 p {
-    margin: 0.5em 15px;
+    margin: 0.5em 0;
     max-width: 600px;
 }
 
@@ -133,7 +133,7 @@ div.interface-container {
 li.school-entry-row {
     display: grid;
     grid-template-columns: 30% 35% 35%;
-    margin: 10px 0px 10px 15px;
+    margin: 10px 0 10px;
 }
 
 
@@ -143,17 +143,22 @@ label.school-entry-header {
 }
 
 div.name-input-wrapper {
-    padding-right: 30px;
+    padding-right: 25px;
 }
 
 div.name-input-wrapper input[type="string"] {
     width: 100%;
 }
 
-div.t-input-wrapper,
 div.f-input-wrapper {
     display: grid;
-    grid-template-columns: auto 4em;
+    grid-template-columns: auto 3em;
+    padding-right: 15px;
+}
+
+div.t-input-wrapper {
+    display: grid;
+    grid-template-columns: auto 2.5em;
 }
 
 div.t-input-wrapper input[type="range"],
@@ -163,7 +168,7 @@ div.f-input-wrapper input[type="range"] {
 
 div.t-input-wrapper label,
 div.f-input-wrapper label {
-    padding: 5px 15px 5px 5px;
+    padding: 5px 0 5px 5px;
     text-align: right;
     vertical-align: middle;
     font-feature-settings: 'tnum';
@@ -200,7 +205,7 @@ div.result-labels-wrapper {
 #results-area {
     display: block;
     list-style-type: decimal;
-    margin: 15px;
+    margin: 15px 0;
     padding-left: 2em;
     max-width: 600px;
 }
@@ -235,12 +240,12 @@ div.result-labels-wrapper {
 /* Large screens */
 @media screen and (min-width: 992px) {
     body {
-        padding: 0 0 80px 80px;
+        margin: 80px 100px;
     }
 }
 
 
-/* Mobile view */
+/* Small screens */
 @media screen and (max-width: 600px) {
     div.logo-wrapper {
         text-align: center;
