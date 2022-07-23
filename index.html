@@ -24,26 +24,29 @@
     <div class="container">
         <h1>Mulberry</h1>
         <subtitle>A free college application strategist.</subtitle>
-        
+
         <noscript>
-            <p>This website requires JavaScript.</p>
+            <p>
+                Your browser has JavaScript disabled. The Mulberry applet will not work properly,
+                but you can still read about how it works.
+            </p>
         </noscript>
 
         <div class="logo-wrapper">
             <img width="300" height="300" src="resources/logo-big.png"
-                alt="The Mulberry logo, showing a magenta berry and a green leaf">
+                alt="The Mulberry logo: a magenta berry and a green leaf">
         </div>
 
         <!-- <h2>Introduction</h2> -->
 
         <p>
             Applying to college is kinda hard. You have to figure out which schools you like,
-            and you also have to figure out which schools you actually have a good chance of
+            as well as which schools you actually have a good chance of
             getting into. That’s the <strong>informational problem.</strong>
         </p>
 
         <p>
-            And once you have this information, it’s tough to decide how best to allocate
+            Once you have this information, it’s tough to decide how to allocate
             your limited applications across desirable, competitive “reach schools”
             and less attractive “safety schools” where admissions is a safer bet.
             That’s the <strong>strategic problem.</strong>
@@ -52,29 +55,29 @@
         <p>
             There are boatloads of “chance me!” websites that can help you with
             the informational problem. But when it comes to the strategic problem,
-            research shows that people often resort to folk wisdom, risk-averse heuristics, and gut feelings.
-            <strong>Mulberry treats the strategic problem as a math problem.</strong> It 
-            complements the introspective techniques above with dispassionate,
-            numbers-driven advice.
+            research shows that people often resort to folk wisdom,
+            risk-averse heuristics, and gut feelings.
+            <strong>Mulberry treats the strategic problem as a math problem.</strong> It
+            complements those introspective techniques with dispassionate, numbers-driven advice.
         </p>
 
         <p>
             <strong>Mulberry is an algorithm.</strong> You input estimates of your admissions
             chances at each school and the amount of utility you associate with going there,
             and Mulberry sorts the schools in the order you should apply
-            to them in order to maximize your expected utility. <a href="#what-is-utility">(“Utility”?)</a>
+            to them to maximize your expected utility. <a href="#what-is-utility">(“Utility”?)</a>
         </p>
 
         <p>
-            We’ve randomly generated a few colleges to get you started. 
+            We’ve randomly generated a few colleges to get you started.
         </p>
 
         <div class="interface-container">
             <ul id="school-input-area">
                 <li class="school-entry-row">
-                    <label class="school-entry-header">🏫 School name</label>
-                    <label class="school-entry-header">🎲 Admissions probability</label>
-                    <label class="school-entry-header">💰 Utility value</label>
+                    <label class="school-entry-header" for="name-input">🏫 School name</label>
+                    <label class="school-entry-header" for="f-input">🎲 Admissions probability</label>
+                    <label class="school-entry-header" for="t-input">💰 Utility value</label>
                 </li>
             </ul>
 
@@ -94,24 +97,24 @@
             <ol id="results-area" start="0">
                 <li id="results-header-row" hidden>
                     <div class="result-labels-wrapper">
-                        <label class="x-result">School</label>
-                        <label class="v-result">Utility</label>
-                        <label class="p-result">Probability</label>
+                        <label class="x-result" for="x-result">School</label>
+                        <label class="v-result" for="v-result">Utility</label>
+                        <label class="p-result" for="p-result">Probability</label>
                     </div>
                 </li>
             </ol>
             <div id="results-outro-text" hidden>
-            <p>
-                If you can only apply to <em>n</em> colleges, you should apply to the
-                first <em>n</em> colleges listed above.
-                Your expected <strong>utility</strong> with this application strategy
-                appears in the second column.
-            </p>
-            <p>
-                The <strong>probability</strong> column gives the probability that you
-                ultimately attend the <em>i</em>th school, <em>given that</em> you apply to
-                schools 1 through <em>i.</em>
-            </p>
+                <p>
+                    If you can only apply to <em>n</em> colleges, you should apply to the
+                    first <em>n</em> colleges listed above.
+                    Your expected <strong>utility</strong> with this application strategy
+                    appears in the second column.
+                </p>
+                <p>
+                    The <strong>probability</strong> column gives the probability that you
+                    ultimately attend the <em>i</em>th school, <em>given that</em> you apply to
+                    schools 1 through <em>i.</em>
+                </p>
             </div>
         </div>
 
@@ -126,8 +129,11 @@
         </p>
 
         <p>
-            It turns out that <strong>the optimal application strategy can be characterized
-            by a certain permutation (ordering) of the schools.</strong>
+            It turns out that
+            <strong>
+                the optimal application strategy can be characterized
+                by a certain permutation (ordering) of the schools.
+            </strong>
             If you can only apply to one college, you should apply to the first school
             in that permutation; if you can apply to two colleges, you should apply to
             the first two, and so on. Mulberry takes your admissions probabilities
@@ -135,9 +141,10 @@
         </p>
 
         <p>
-            The interesting thing is that the optimal permutation is <em>not</em> 
+            The interesting thing is that the optimal permutation is <em>not</em>
             determined by simply sorting the schools by the products of their admissions probability
-            and utility values. <strong>This “obvious“ idea turns out to be incorrect</strong>—it can produce
+            and utility values. <strong>Mathematically, we can show that “obvious“ idea is
+                incorrect</strong>—it can produce
             a suboptimal result. To get the true optimum, you need to delve into
             the conditional probabilities described above, and that’s exactly what
             Mulberry does.
@@ -145,11 +152,13 @@
 
         <p>
             The underlying algorithm is detailed in my
-            <a href="https://github.com/maxkapur/CollegeApplication">MS thesis</a>. 
+            <a href="https://github.com/maxkapur/CollegeApplication">MS thesis</a>.
             My thesis also addresses a more general form of the problem in which colleges
             have different application <em>fees</em> and you have a finite <em>budget</em>
             to spend on applications. If you want to solve instances of this harder problem,
-            check out my <a href="https://maxkapur.com/OptimalApplication.jl/dev/">Julia package</a>.
+            and are comfortable with the command line,
+            check out my <a href="https://maxkapur.com/OptimalApplication.jl/dev/">Julia
+                package</a>.
         </p>
 
         <h2 id="what-is-utility">How do I determine my utility values?</h2>
@@ -157,21 +166,29 @@
         <p>
             A <a href="https://en.wikipedia.org/wiki/Utility">utility</a>
             value is a number that summarizes
-            <strong>how much <em>you</em> like each school
-            in light of your own priorities and values.</strong>
+            <strong>
+                how much <em>you</em> like each school
+                in light of your own priorities.
+            </strong>
+            The college’s student experience, career outcomes,
+            the cost of tuition, and the graduation rate will
+            all contribute to the utility value. You can consult
+            the <a href="https://collegescorecard.ed.gov/">College Scorecard</a> for
+            factual data about colleges and universities in the US.
         </p>
 
         <p>
-            A good way to estimate the utility of the schools you are considering
-            is to ask yourself the following question: 
+            Once you’ve read up on a target school, a good way to estimate its
+            utility value is to ask yourself the following question:
             <strong>
                 If letters of admission to this college were sold
-                at <span id="retail-outlet">Best Buy</span>,
-                how much money would I be willing to pay for one? 
+                <span id="retail-outlet">at Best Buy</span>,
+                how much money would I be willing to pay for one?
             </strong>
-            Then divide your answer by some constant so you can
+            Then, if necessary, divide your answer by some constant so you can
             fit it in the scale above.
         </p>
+
 
         <h2>
             About the code
@@ -183,10 +200,10 @@
             <a href="https://github.com/maxkapur/mulberry">here</a>. This website does not use
             cookies, so <strong>all the data you input lives only on your computer,</strong>
             and if you refresh the page it will disappear.
-            The code is provided under a GPL license, which means that you can reuse it in your 
+            The code is provided under a GPL license, which means that you can reuse it in your
             own projects, but only if they are released under a similar open-source license.
         </p>
-        
+
         <p>
             <strong>Bugs, questions, comments:</strong> Submit a pull request on
             GitHub or email me at <a href="mailto:maxkapur@gmail.com">maxkapur@gmail.com</a>.
@@ -194,9 +211,9 @@
         </p>
 
         <p>
-            The logo is derived from a Wikimedia Commons image by user
+            The logo and theme colors are derived from a Wikimedia Commons image by user
             <a href="https://en.wikipedia.org/wiki/Morus_(plant)#/media/File:Wild_mulberry.jpg">
-            Geo Lightspeed7</a>.
+                Geo Lightspeed7</a>.
         </p>
     </div>
 

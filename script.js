@@ -1,16 +1,11 @@
 function isSortedAsc(arr) {
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i-1] > arr[i]) {
-            return false;
-        }
-    }
-    return true;
+    return arr.every((v, i, a) => !i || a[i - 1] <= v);
 }
 
 
 function sum(arr) {
     return arr.reduce(
-        function (total, x) {return total + x;},
+        function (total, x) { return total + x; },
         0.0
     );
 }
@@ -82,7 +77,7 @@ function applicationOrder(colleges) {
     var p_nowhere = 1 - bestC.f;
 
     for (let j = 0; j < m - 1; j++) {
-        
+
         console.log(colleges);
 
         if (j > 0) {
@@ -145,6 +140,7 @@ function make_nameInputWrapper(j, name) {
     let nameInput = document.createElement("input");
     nameInput.setAttribute("type", "string");
     nameInput.setAttribute("value", name);
+    nameInput.setAttribute("name", "name-input");
     nameInputWrapper.appendChild(nameInput);
     return nameInputWrapper;
 }
@@ -162,6 +158,7 @@ function make_fInputWrapper(j, f) {
     fInput.setAttribute("step", "1");
     fInput.setAttribute("value", f);
     fInput.setAttribute("oninput", `update_f_label(${j})`);
+    fInput.setAttribute("name", "f-input");
     fInputWrapper.appendChild(fInput);
     let fInputLabel = document.createElement("label");
     fInputLabel.innerText = `${f}%`;
@@ -182,6 +179,7 @@ function make_tInputWrapper(j, t) {
     tInput.setAttribute("step", "1");
     tInput.setAttribute("value", t);
     tInput.setAttribute("oninput", `update_t_label(${j})`);
+    tInput.setAttribute("name", "t-input");
     tInputWrapper.appendChild(tInput)
     let tInputLabel = document.createElement("label");
     tInputLabel.innerText = `${t}`;
@@ -281,15 +279,20 @@ function calculate() {
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
         resultX.setAttribute("class", "x-result");
+        resultX.setAttribute("name", "x-result");
         resultX.innerText = results[0][i];
+
         let resultV = document.createElement("label");
         resultV.setAttribute("class", "v-result");
+        resultV.setAttribute("name", "v-result");
         resultV.innerText = results[1][i].toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
+
         let resultP = document.createElement("label");
         resultP.setAttribute("class", "p-result");
+        resultP.setAttribute("name", "p-result");
         let p = (results[2][i] * 100).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -310,7 +313,7 @@ function calculate() {
 }
 
 
-const RETAIL_OUTLETS = "7/11,Best Buy,Radioshack,Target,the deli,Chipotle".split(",")
+const RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
 
 // Populate the retail outlet with a retail outlet
 function populateRetailOutlet() {
