@@ -202,7 +202,7 @@ div.result-labels-wrapper {
 }
 
 
-#results-area {
+#results-list {
     display: block;
     list-style-type: decimal;
     margin: 15px 0;
@@ -223,12 +223,12 @@ div.result-labels-wrapper {
 }
 
 
-#results-area label.x-result {
+#results-list label.x-result {
     text-align: left;
 }
 
-#results-area label.v-result,
-#results-area label.p-result {
+#results-list label.v-result,
+#results-list label.p-result {
     padding-left: 15px;
     font-feature-settings: 'tnum';
     -webkit-font-feature-settings: 'tnum';

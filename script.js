@@ -259,9 +259,9 @@ function removeCollegeEntry() {
 function calculate() {
     let resultsHeaderRow = document.getElementById("results-header-row");
     resultsHeaderRow.hidden = false;
-    let resultsArea = document.getElementById("results-area")
-    resultsArea.innerText = "";
-    resultsArea.appendChild(resultsHeaderRow);
+    let resultsList = document.getElementById("results-list")
+    resultsList.innerText = "";
+    resultsList.appendChild(resultsHeaderRow);
 
     const colleges = collegeIdxs.map(
         function (j, _) {
@@ -274,7 +274,8 @@ function calculate() {
 
     const results = applicationOrder(colleges);
 
-    document.getElementById("results-intro-text").innerText = "Your optimal application order:";
+    document.getElementById("results-will-appear-here").hidden = true;
+    document.getElementById("results-intro-text").hidden = false;
 
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
@@ -306,7 +307,7 @@ function calculate() {
         resultLabelsWrapper.appendChild(resultV);
         resultLabelsWrapper.appendChild(resultP);
         resultRow.appendChild(resultLabelsWrapper)
-        resultsArea.appendChild(resultRow);
+        resultsList.appendChild(resultRow);
     }
 
     document.getElementById("results-outro-text").hidden = false;
