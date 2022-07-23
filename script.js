@@ -1,8 +1,26 @@
+function isSortedAsc(arr) {
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i-1] > arr[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+function sum(arr) {
+    return arr.reduce(
+        function (total, x) {return total + x;},
+        0.0
+    );
+}
+
+
 // Holds the name, admissions probability, and utility associated with a college
 class College {
     constructor(name, f, t) {
-        console.assert(0 < f <= 1, f);
-        console.assert(t > 0, t);
+        console.assert(0 < f & f <= 1, `f = ${f}`);
+        console.assert(t > 0, `t = ${t}`);
         this.name = name;
         this.f = f;
         this.t = t;
@@ -58,6 +76,10 @@ function applicationOrder(colleges) {
 
     const x = [bestC.name];
     const v = [bestC.ft];
+    const p = [bestC.f];
+
+    // Probability of being rejected from all of the schools currently in x
+    var p_nowhere = 1 - bestC.f;
 
     for (let j = 0; j < m - 1; j++) {
         
@@ -66,6 +88,12 @@ function applicationOrder(colleges) {
         if (j > 0) {
             x.push(bestC.name);
             v.push(v[j - 1] + bestC.ft);
+
+            // Probably of attending to the jth school
+            // = (probability of being rejected from first (j-1) schools)
+            // * (probability of getting into j)
+            p.push(p_nowhere * bestC.f);
+            p_nowhere *= 1 - bestC.f;
         }
 
         let newBestIdx = -1;
@@ -95,11 +123,16 @@ function applicationOrder(colleges) {
 
     x.push(bestC.name);
     v.push(v[m - 2] + bestC.ft);
+    p.push(p_nowhere * bestC.f);
 
     console.log(x);
     console.log(v);
+    console.log(p);
 
-    return [x, v];
+    console.assert(isSortedAsc(v), "v not sorted!");
+    console.assert(sum(p) <= 1, "sum of probabilities exceeds 1!");
+
+    return [x, v, p];
 }
 
 
@@ -178,8 +211,8 @@ function newCollegeEntryWithIdx(j) {
     newCollegeEntry.setAttribute("class", "school-entry-row");
 
     let name = randomCollegeName();
-    let t = Math.min(500, Math.ceil(-Math.log(Math.random()) * 250));
-    let f = Math.ceil(100 / Math.sqrt(t));
+    let f = Math.ceil(100 * Math.sqrt(Math.random()));
+    let t = 3 * f + Math.ceil(200 * Math.random());
 
     newCollegeEntry.appendChild(make_nameInputWrapper(j, name));
     newCollegeEntry.appendChild(make_fInputWrapper(j, f));
@@ -203,17 +236,22 @@ function addCollegeEntry() {
         newCollegeEntryWithIdx(j)
     );
     collegeCounter++;
+    document.getElementById("remove-school-button").hidden = false;
 }
 
 
 // When the user clicks the remove college button:
 function removeCollegeEntry() {
-    if (document.getElementById("school-input-area").childElementCount > 1) {
+    if (collegeIdxs.length > 0) {
         let lastEntry = document.getElementById("school-input-area").lastElementChild;
         collegeIdxs.pop();
         document.getElementById("school-input-area").removeChild(
             lastEntry
         );
+    }
+
+    if (collegeIdxs.length == 0) {
+        document.getElementById("remove-school-button").hidden = true;
     }
 }
 
@@ -221,8 +259,11 @@ function removeCollegeEntry() {
 // When the user clicks the calculate button:
 // Pass the input colleges to the solver and output results in results area
 function calculate() {
+    let resultsHeaderRow = document.getElementById("results-header-row");
+    resultsHeaderRow.hidden = false;
     let resultsArea = document.getElementById("results-area")
     resultsArea.innerText = "";
+    resultsArea.appendChild(resultsHeaderRow);
 
     const colleges = collegeIdxs.map(
         function (j, _) {
@@ -235,7 +276,7 @@ function calculate() {
 
     const results = applicationOrder(colleges);
 
-    document.getElementById("results-intro-text").innerText = "Your optimal application order and the corresponding utility values:";
+    document.getElementById("results-intro-text").innerText = "Your optimal application order:";
 
     for (let i = 0; i < collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
@@ -247,12 +288,20 @@ function calculate() {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
+        let resultP = document.createElement("label");
+        resultP.setAttribute("class", "p-result");
+        let p = (results[2][i] * 100).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+        resultP.innerText = `${p}%`;
 
         let resultRow = document.createElement("li");
         let resultLabelsWrapper = document.createElement("div");
         resultLabelsWrapper.setAttribute("class", "result-labels-wrapper");
         resultLabelsWrapper.appendChild(resultX);
         resultLabelsWrapper.appendChild(resultV);
+        resultLabelsWrapper.appendChild(resultP);
         resultRow.appendChild(resultLabelsWrapper)
         resultsArea.appendChild(resultRow);
     }
