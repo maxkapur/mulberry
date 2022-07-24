@@ -1,9 +1,13 @@
-function isSortedAsc(arr) {
+// Namespace
+const mulberry = {};
+
+
+mulberry.isSortedAsc = function (arr) {
     return arr.every((v, i, a) => !i || a[i - 1] <= v);
 }
 
 
-function sum(arr) {
+mulberry.sum = function (arr) {
     return arr.reduce(
         function (total, x) { return total + x; },
         0.0
@@ -12,7 +16,7 @@ function sum(arr) {
 
 
 // Holds the name, admissions probability, and utility associated with a college
-class College {
+mulberry.College = class {
     constructor(name, f, t) {
         console.assert(0 < f & f <= 1, `f = ${f}`);
         console.assert(t > 0, `t = ${t}`);
@@ -29,34 +33,34 @@ class College {
     // Returns a college.
     discount(c) {
         if (this.t < c.t) {
-            return new College(this.name, this.f, this.t * (1 - c.f));
+            return new mulberry.College(this.name, this.f, this.t * (1 - c.f));
         } else {
-            return new College(this.name, this.f, this.t - c.ft);
+            return new mulberry.College(this.name, this.f, this.t - c.ft);
         }
     }
 }
 
 
 // This logs a single assertion error to the console; no problem
-const DUMMY_COLLEGE = new College("Dummy", 0.0, -1.0);
+mulberry.DUMMY_COLLEGE = new mulberry.College("Dummy", 0.0, -1.0);
 
 
 // For generating random colleges
-const ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Multiplicative Northernmost Overrated Practical Qualitative Wicked XYZ Yesterday Zealous".split(' ')
-const NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy".split(",")
+mulberry.ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Multiplicative Northernmost Overrated Practical Qualitative Wicked XYZ Yesterday Zealous".split(' ')
+mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy".split(",")
 
 
 // Generate a random college name to serve as a placeholder for user input.
-function randomCollegeName() {
-    let adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
-    let noun = NOUNS[Math.floor(Math.random() * NOUNS.length)];
+mulberry.randomCollegeName = function () {
+    let adj = mulberry.ADJECTIVES[Math.floor(Math.random() * mulberry.ADJECTIVES.length)];
+    let noun = mulberry.NOUNS[Math.floor(Math.random() * mulberry.NOUNS.length)];
     return `${adj} ${noun}`;
 }
 
 
 // Compute the application order, given an array of colleges
 // Modifies colleges in place, so cannot be used repetitively
-function applicationOrder(colleges) {
+mulberry.applicationOrder = function (colleges) {
     let m = colleges.length;
 
     var bestIdx = 0;
@@ -124,8 +128,8 @@ function applicationOrder(colleges) {
     console.log(v);
     console.log(p);
 
-    console.assert(isSortedAsc(v), "v not sorted!");
-    console.assert(sum(p) <= 1, "sum of probabilities exceeds 1!");
+    console.assert(mulberry.isSortedAsc(v), "v not sorted!");
+    console.assert(mulberry.sum(p) <= 1, "sum of probabilities exceeds 1!");
 
     return [x, v, p];
 }
@@ -133,7 +137,7 @@ function applicationOrder(colleges) {
 
 // Building blocks for a college input row:
 // Name entry
-function make_nameInputWrapper(j, name) {
+mulberry.makeNameInputWrapper = function (j, name) {
     let nameInputWrapper = document.createElement("div");
     nameInputWrapper.setAttribute("id", `name-input-wrapper-${j}`);
     nameInputWrapper.setAttribute("class", "name-input-wrapper");
@@ -147,7 +151,7 @@ function make_nameInputWrapper(j, name) {
 
 
 // Admit probability entry
-function make_fInputWrapper(j, f) {
+mulberry.makeFInputWrapper = function (j, f) {
     let fInputWrapper = document.createElement("div");
     fInputWrapper.setAttribute("id", `f-input-wrapper-${j}`)
     fInputWrapper.setAttribute("class", "f-input-wrapper");
@@ -168,7 +172,7 @@ function make_fInputWrapper(j, f) {
 
 
 // Utility entry
-function make_tInputWrapper(j, t) {
+mulberry.makeTInputWrapper = function (j, t) {
     let tInputWrapper = document.createElement("div");
     tInputWrapper.setAttribute("id", `t-input-wrapper-${j}`)
     tInputWrapper.setAttribute("class", "t-input-wrapper");
@@ -189,14 +193,14 @@ function make_tInputWrapper(j, t) {
 
 
 // Called on input
-function update_f_label(j) {
+mulberry.updateFLabel = function (j) {
     let newValue = document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value;
     document.getElementById(`f-input-wrapper-${j}`).lastElementChild.innerText = `${newValue}%`;
 }
 
 
 // Called on input
-function update_t_label(j) {
+mulberry.updateTLabel = function (j) {
     let newValue = document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value;
     document.getElementById(`t-input-wrapper-${j}`).lastElementChild.innerText = `${newValue}`;
 }
@@ -204,51 +208,51 @@ function update_t_label(j) {
 
 // Generate a new college entry row, with HTML element identifier j
 // for later selection
-function newCollegeEntryWithIdx(j) {
+mulberry.newCollegeEntryWithIdx = function (j) {
     let newCollegeEntry = document.createElement("li");
     newCollegeEntry.setAttribute("class", "school-entry-row");
 
-    let name = randomCollegeName();
+    let name = mulberry.randomCollegeName();
     let f = Math.ceil(100 * Math.sqrt(Math.random()));
     let t = 3 * f + Math.ceil(200 * Math.random());
 
-    newCollegeEntry.appendChild(make_nameInputWrapper(j, name));
-    newCollegeEntry.appendChild(make_fInputWrapper(j, f));
-    newCollegeEntry.appendChild(make_tInputWrapper(j, t));
+    newCollegeEntry.appendChild(mulberry.makeNameInputWrapper(j, name));
+    newCollegeEntry.appendChild(mulberry.makeFInputWrapper(j, f));
+    newCollegeEntry.appendChild(mulberry.makeTInputWrapper(j, t));
 
     return newCollegeEntry;
 }
 
 
 // Total number of colleges the user has entered (including deletions)
-var collegeCounter = 0;
+mulberry.collegeCounter = 0;
 // Set of college indices that haven't been deleted
-var collegeIdxs = [];
+mulberry.collegeIdxs = [];
 
 
-// When the user clicks the add college button:
-function addCollegeEntry() {
-    let j = collegeCounter;
-    collegeIdxs.push(j);
+// When the user clicks the add college button
+mulberry.addCollegeEntry = function () {
+    let j = mulberry.collegeCounter;
+    mulberry.collegeIdxs.push(j);
     document.getElementById("school-input-area").appendChild(
-        newCollegeEntryWithIdx(j)
+        mulberry.newCollegeEntryWithIdx(j)
     );
-    collegeCounter++;
+    mulberry.collegeCounter++;
     document.getElementById("remove-school-button").hidden = false;
 }
 
 
-// When the user clicks the remove college button:
-function removeCollegeEntry() {
-    if (collegeIdxs.length > 0) {
+// When the user clicks the remove college button
+mulberry.removeCollegeEntry = function () {
+    if (mulberry.collegeIdxs.length > 0) {
         let lastEntry = document.getElementById("school-input-area").lastElementChild;
-        collegeIdxs.pop();
+        mulberry.collegeIdxs.pop();
         document.getElementById("school-input-area").removeChild(
             lastEntry
         );
     }
 
-    if (collegeIdxs.length == 0) {
+    if (mulberry.collegeIdxs.length == 0) {
         document.getElementById("remove-school-button").hidden = true;
     }
 }
@@ -256,28 +260,28 @@ function removeCollegeEntry() {
 
 // When the user clicks the calculate button:
 // Pass the input colleges to the solver and output results in results area
-function calculate() {
+mulberry.calculate = function () {
     let resultsHeaderRow = document.getElementById("results-header-row");
     resultsHeaderRow.hidden = false;
     let resultsList = document.getElementById("results-list")
     resultsList.innerText = "";
     resultsList.appendChild(resultsHeaderRow);
 
-    const colleges = collegeIdxs.map(
+    const colleges = mulberry.collegeIdxs.map(
         function (j, _) {
             let name = document.getElementById(`name-input-wrapper-${j}`).firstElementChild.value;
             let f = parseFloat(document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value) / 100;
             let t = parseFloat(document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value);
-            return new College(name, f, t);
+            return new mulberry.College(name, f, t);
         }
     );
 
-    const results = applicationOrder(colleges);
+    const results = mulberry.applicationOrder(colleges);
 
     document.getElementById("results-will-appear-here").hidden = true;
     document.getElementById("results-intro-text").hidden = false;
 
-    for (let i = 0; i < collegeIdxs.length; i++) {
+    for (let i = 0; i < mulberry.collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
         resultX.setAttribute("class", "x-result");
         resultX.setAttribute("name", "x-result");
@@ -314,19 +318,19 @@ function calculate() {
 }
 
 
-const RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
+mulberry.RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
 
 // Populate the retail outlet with a retail outlet
-function populateRetailOutlet() {
-    document.getElementById("retail-outlet").innerText = RETAIL_OUTLETS[Math.floor(Math.random() * RETAIL_OUTLETS.length)];
+mulberry.populateRetailOutlet = function () {
+    document.getElementById("retail-outlet").innerText = mulberry.RETAIL_OUTLETS[Math.floor(Math.random() * mulberry.RETAIL_OUTLETS.length)];
 }
 
 // Runs on page load
-function init() {
+mulberry.initialize = function () {
     // Populate the input area with some random colleges
     for (let _ = 0; _ < 5; _++) {
-        addCollegeEntry();
+        mulberry.addCollegeEntry();
     }
 
-    populateRetailOutlet();
+    mulberry.populateRetailOutlet();
 }

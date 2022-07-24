@@ -20,7 +20,7 @@
     <meta name="theme-color" content="#71b6a1">
 </head>
 
-<body onload="init()">
+<body onload="mulberry.initialize()">
     <div class="container">
         <h1>Mulberry</h1>
         <subtitle>A free college application strategist.</subtitle>
@@ -82,12 +82,12 @@
             </ul>
 
             <div class="add-remove-school">
-                <button id="add-school-button" onclick="addCollegeEntry()">➕ Add a school</button>
-                <button id="remove-school-button" onclick="removeCollegeEntry()">➖ Remove a school</button>
+                <button id="add-school-button" onclick="mulberry.addCollegeEntry()">➕ Add a school</button>
+                <button id="remove-school-button" onclick="mulberry.removeCollegeEntry()">➖ Remove a school</button>
             </div>
 
             <div id="calculate-button-wrapper">
-                <button type="submit" onclick="calculate()">🪄 Calculate application order</button>
+                <button type="submit" onclick="mulberry.calculate()">🪄 Calculate application order</button>
             </div>
         </div>
 
