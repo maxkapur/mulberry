@@ -46,8 +46,8 @@ mulberry.DUMMY_COLLEGE = new mulberry.College("Dummy", 0.0, -1.0);
 
 
 // For generating random colleges
-mulberry.ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Multiplicative Northernmost Overrated Practical Qualitative Wicked XYZ Yesterday Zealous".split(' ')
-mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy".split(",")
+mulberry.ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Moldy Northernmost Overrated Practical Questionable Wicked XYZ Yesterday Zealous".split(' ')
+mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy,Police Academy,Polytechnic,Seminary".split(",")
 
 
 // Generate a random college name to serve as a placeholder for user input.
@@ -63,7 +63,7 @@ mulberry.randomCollegeName = function () {
 mulberry.applicationOrder = function (colleges) {
     let m = colleges.length;
 
-    var bestIdx = 0;
+    let bestIdx = 0;
 
     for (let i = 0; i < m; i++) {
         if (colleges[i].ft >= colleges[bestIdx].ft) {
@@ -78,7 +78,7 @@ mulberry.applicationOrder = function (colleges) {
     const p = [bestC.f];
 
     // Probability of being rejected from all of the schools currently in x
-    var p_nowhere = 1 - bestC.f;
+    let p_nowhere = 1 - bestC.f;
 
     for (let j = 0; j < m - 1; j++) {
 
@@ -96,7 +96,7 @@ mulberry.applicationOrder = function (colleges) {
         }
 
         let newBestIdx = -1;
-        let newBestC = DUMMY_COLLEGE;
+        let newBestC = mulberry.DUMMY_COLLEGE;
 
         for (let i = 0; i < bestIdx; i++) {
             colleges[i] = colleges[i].discount(bestC);
@@ -161,7 +161,7 @@ mulberry.makeFInputWrapper = function (j, f) {
     fInput.setAttribute("max", "100");
     fInput.setAttribute("step", "1");
     fInput.setAttribute("value", f);
-    fInput.setAttribute("oninput", `update_f_label(${j})`);
+    fInput.setAttribute("oninput", `mulberry.updateFLabel(${j})`);
     fInput.setAttribute("name", "f-input");
     fInputWrapper.appendChild(fInput);
     let fInputLabel = document.createElement("label");
@@ -182,7 +182,7 @@ mulberry.makeTInputWrapper = function (j, t) {
     tInput.setAttribute("max", "500");
     tInput.setAttribute("step", "1");
     tInput.setAttribute("value", t);
-    tInput.setAttribute("oninput", `update_t_label(${j})`);
+    tInput.setAttribute("oninput", `mulberry.updateTLabel(${j})`);
     tInput.setAttribute("name", "t-input");
     tInputWrapper.appendChild(tInput)
     let tInputLabel = document.createElement("label");
