@@ -69,21 +69,17 @@ mulberry.applicationOrder = class {
     constructor (names, v, p) {
         this.names = names; // Sorted college names
         this.v = v;         // Corresponding valuations
-        this.p = p;         // Probability of attending that school
     }
 
     // Check that the results are cogent
     check() {
         console.log(this.names);
         console.log(this.v);
-        console.log(this.p);
         console.assert(
-            this.names.length == this.v.length &
-            this.names.length == this.p.length,
+            this.names.length == this.v.length,
             "length of output vectors don't agree!"
         );
         console.assert(mulberry.isSortedAsc(this.v), "v not sorted!");
-        console.assert(mulberry.sum(this.p) <= 1, "sum of probabilities exceeds 1!");
     }
 }
 
@@ -105,12 +101,8 @@ mulberry.computeApplicationOrder = function (colleges) {
 
     const result = new mulberry.applicationOrder(
         [bestC.name],   // names
-        [bestC.ft],     // v
-        [bestC.f]       // p
+        [bestC.ft]      // v
     )
-
-    // Probability of being rejected from all of the schools currently in x
-    let p_nowhere = 1 - bestC.f;
 
     for (let j = 0; j < m - 1; j++) {
 
@@ -119,12 +111,6 @@ mulberry.computeApplicationOrder = function (colleges) {
         if (j > 0) {
             result.names.push(bestC.name);
             result.v.push(result.v[j - 1] + bestC.ft);
-
-            // Probably of attending to the jth school
-            // = (probability of being rejected from first (j-1) schools)
-            // * (probability of getting into j)
-            result.p.push(p_nowhere * bestC.f);
-            p_nowhere *= 1 - bestC.f;
         }
 
         let newBestIdx = -1;
@@ -154,7 +140,6 @@ mulberry.computeApplicationOrder = function (colleges) {
 
     result.names.push(bestC.name);
     result.v.push(result.v[m - 2] + bestC.ft);
-    result.p.push(p_nowhere * bestC.f);
 
     result.check();
 
@@ -323,21 +308,11 @@ mulberry.calculate = function () {
             maximumFractionDigits: 2,
         });
 
-        let resultP = document.createElement("label");
-        resultP.setAttribute("class", "p-result");
-        resultP.setAttribute("name", "p-result");
-        let p = (result.p[i] * 100).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-        resultP.innerText = `${p}%`;
-
         let resultRow = document.createElement("li");
         let resultLabelsWrapper = document.createElement("div");
         resultLabelsWrapper.setAttribute("class", "result-labels-wrapper");
         resultLabelsWrapper.appendChild(resultX);
         resultLabelsWrapper.appendChild(resultV);
-        resultLabelsWrapper.appendChild(resultP);
         resultRow.appendChild(resultLabelsWrapper)
         resultsList.appendChild(resultRow);
     }

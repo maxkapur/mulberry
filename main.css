@@ -195,10 +195,10 @@ div.f-input-wrapper label {
     min-width: 300px;
 }
 
+
 div.result-labels-wrapper {
     display: grid;
-    grid-template-columns: auto 5em 7em;
-    /* max-width: 600px; */
+    grid-template-columns: auto 5em;
 }
 
 
@@ -207,7 +207,7 @@ div.result-labels-wrapper {
     list-style-type: decimal;
     margin: 15px 0;
     padding-left: 2em;
-    max-width: 600px;
+    max-width: calc(600px - 2em);
 }
 
 /* Remove "0." on header row */
@@ -215,20 +215,17 @@ div.result-labels-wrapper {
     list-style-type: none;
 }
 
-#results-header-row .name-result,
-#results-header-row .v-result,
-#results-header-row .p-result {
+#results-header-row label.name-result,
+#results-header-row label.v-result {
     font-weight: 500;
     margin-bottom: 5px;
 }
-
 
 #results-list label.name-result {
     text-align: left;
 }
 
-#results-list label.v-result,
-#results-list label.p-result {
+#results-list label.v-result {
     padding-left: 15px;
     font-feature-settings: 'tnum';
     -webkit-font-feature-settings: 'tnum';
