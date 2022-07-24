@@ -18,31 +18,37 @@ mulberry.sum = function (arr) {
 // Holds the name, admissions probability, and utility associated with a college
 mulberry.College = class {
     constructor(name, f, t) {
-        console.assert(0 < f & f <= 1, `f = ${f}`);
-        console.assert(t > 0, `t = ${t}`);
         this.name = name;
         this.f = f;
         this.t = t;
     }
-
+    
     get ft() {
         return this.f * this.t;
     }
-
+    
     // Update t to reflect the marginal utility relative to a portfolio containing c.
     // Returns a college.
     discount(c) {
         if (this.t < c.t) {
-            return new mulberry.College(this.name, this.f, this.t * (1 - c.f));
+            return mulberry.newCollegeWithChecks(this.name, this.f, this.t * (1 - c.f));
         } else {
-            return new mulberry.College(this.name, this.f, this.t - c.ft);
+            return mulberry.newCollegeWithChecks(this.name, this.f, this.t - c.ft);
         }
     }
 }
 
 
-// This logs a single assertion error to the console; no problem
+// Used internally as a null comparison in sort algorithm
 mulberry.DUMMY_COLLEGE = new mulberry.College("Dummy", 0.0, -1.0);
+
+
+// Safe college constructor that checks variable bounds
+mulberry.newCollegeWithChecks = function (name, f, t) {
+    console.assert(0 < f & f <= 1, `f = ${f} not in (0, 1]`);
+    console.assert(t >= 0, `t = ${t} < 0`);
+    return new mulberry.College(name, f, t);
+}
 
 
 // For generating random colleges
@@ -258,6 +264,15 @@ mulberry.removeCollegeEntry = function () {
 }
 
 
+// Read the data input for college j from fields into College object
+mulberry.newCollegeFromJ = function (j, _) {
+    let name = document.getElementById(`name-input-wrapper-${j}`).firstElementChild.value;
+    let f = parseFloat(document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value) / 100;
+    let t = parseFloat(document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value);
+    return mulberry.newCollegeWithChecks(name, f, t);
+}
+
+
 // When the user clicks the calculate button:
 // Pass the input colleges to the solver and output results in results area
 mulberry.calculate = function () {
@@ -267,15 +282,7 @@ mulberry.calculate = function () {
     resultsList.innerText = "";
     resultsList.appendChild(resultsHeaderRow);
 
-    const colleges = mulberry.collegeIdxs.map(
-        function (j, _) {
-            let name = document.getElementById(`name-input-wrapper-${j}`).firstElementChild.value;
-            let f = parseFloat(document.getElementById(`f-input-wrapper-${j}`).firstElementChild.value) / 100;
-            let t = parseFloat(document.getElementById(`t-input-wrapper-${j}`).firstElementChild.value);
-            return new mulberry.College(name, f, t);
-        }
-    );
-
+    const colleges = mulberry.collegeIdxs.map(mulberry.newCollegeFromJ);
     const results = mulberry.applicationOrder(colleges);
 
     document.getElementById("results-will-appear-here").hidden = true;
