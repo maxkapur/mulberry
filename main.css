@@ -215,7 +215,7 @@ div.result-labels-wrapper {
     list-style-type: none;
 }
 
-#results-header-row .x-result,
+#results-header-row .name-result,
 #results-header-row .v-result,
 #results-header-row .p-result {
     font-weight: 500;
@@ -223,7 +223,7 @@ div.result-labels-wrapper {
 }
 
 
-#results-list label.x-result {
+#results-list label.name-result {
     text-align: left;
 }
 

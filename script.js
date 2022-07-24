@@ -22,11 +22,11 @@ mulberry.College = class {
         this.f = f;
         this.t = t;
     }
-    
+
     get ft() {
         return this.f * this.t;
     }
-    
+
     // Update t to reflect the marginal utility relative to a portfolio containing c.
     // Returns a college.
     discount(c) {
@@ -56,7 +56,7 @@ mulberry.ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Hell
 mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy,Police Academy,Polytechnic,Seminary".split(",")
 
 
-// Generate a random college name to serve as a placeholder for user input.
+// Generate a random college name to serve as a placeholder for user input
 mulberry.randomCollegeName = function () {
     let adj = mulberry.ADJECTIVES[Math.floor(Math.random() * mulberry.ADJECTIVES.length)];
     let noun = mulberry.NOUNS[Math.floor(Math.random() * mulberry.NOUNS.length)];
@@ -64,9 +64,33 @@ mulberry.randomCollegeName = function () {
 }
 
 
+// Results of application order computation
+mulberry.applicationOrder = class {
+    constructor (names, v, p) {
+        this.names = names; // Sorted college names
+        this.v = v;         // Corresponding valuations
+        this.p = p;         // Probability of attending that school
+    }
+
+    // Check that the results are cogent
+    check() {
+        console.log(this.names);
+        console.log(this.v);
+        console.log(this.p);
+        console.assert(
+            this.names.length == this.v.length &
+            this.names.length == this.p.length,
+            "length of output vectors don't agree!"
+        );
+        console.assert(mulberry.isSortedAsc(this.v), "v not sorted!");
+        console.assert(mulberry.sum(this.p) <= 1, "sum of probabilities exceeds 1!");
+    }
+}
+
+
 // Compute the application order, given an array of colleges
 // Modifies colleges in place, so cannot be used repetitively
-mulberry.applicationOrder = function (colleges) {
+mulberry.computeApplicationOrder = function (colleges) {
     let m = colleges.length;
 
     let bestIdx = 0;
@@ -79,9 +103,11 @@ mulberry.applicationOrder = function (colleges) {
 
     let bestC = colleges[bestIdx];
 
-    const x = [bestC.name];
-    const v = [bestC.ft];
-    const p = [bestC.f];
+    const result = new mulberry.applicationOrder(
+        [bestC.name],   // names
+        [bestC.ft],     // v
+        [bestC.f]       // p
+    )
 
     // Probability of being rejected from all of the schools currently in x
     let p_nowhere = 1 - bestC.f;
@@ -91,13 +117,13 @@ mulberry.applicationOrder = function (colleges) {
         console.log(colleges);
 
         if (j > 0) {
-            x.push(bestC.name);
-            v.push(v[j - 1] + bestC.ft);
+            result.names.push(bestC.name);
+            result.v.push(result.v[j - 1] + bestC.ft);
 
             // Probably of attending to the jth school
             // = (probability of being rejected from first (j-1) schools)
             // * (probability of getting into j)
-            p.push(p_nowhere * bestC.f);
+            result.p.push(p_nowhere * bestC.f);
             p_nowhere *= 1 - bestC.f;
         }
 
@@ -126,18 +152,13 @@ mulberry.applicationOrder = function (colleges) {
         colleges.pop();
     }
 
-    x.push(bestC.name);
-    v.push(v[m - 2] + bestC.ft);
-    p.push(p_nowhere * bestC.f);
+    result.names.push(bestC.name);
+    result.v.push(result.v[m - 2] + bestC.ft);
+    result.p.push(p_nowhere * bestC.f);
 
-    console.log(x);
-    console.log(v);
-    console.log(p);
+    result.check();
 
-    console.assert(mulberry.isSortedAsc(v), "v not sorted!");
-    console.assert(mulberry.sum(p) <= 1, "sum of probabilities exceeds 1!");
-
-    return [x, v, p];
+    return result;
 }
 
 
@@ -283,21 +304,21 @@ mulberry.calculate = function () {
     resultsList.appendChild(resultsHeaderRow);
 
     const colleges = mulberry.collegeIdxs.map(mulberry.newCollegeFromJ);
-    const results = mulberry.applicationOrder(colleges);
+    const result = mulberry.computeApplicationOrder(colleges);
 
     document.getElementById("results-will-appear-here").hidden = true;
     document.getElementById("results-intro-text").hidden = false;
 
     for (let i = 0; i < mulberry.collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
-        resultX.setAttribute("class", "x-result");
-        resultX.setAttribute("name", "x-result");
-        resultX.innerText = results[0][i];
+        resultX.setAttribute("class", "name-result");
+        resultX.setAttribute("name", "name-result");
+        resultX.innerText = result.names[i];
 
         let resultV = document.createElement("label");
         resultV.setAttribute("class", "v-result");
         resultV.setAttribute("name", "v-result");
-        resultV.innerText = results[1][i].toLocaleString('en-US', {
+        resultV.innerText = result.v[i].toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -305,7 +326,7 @@ mulberry.calculate = function () {
         let resultP = document.createElement("label");
         resultP.setAttribute("class", "p-result");
         resultP.setAttribute("name", "p-result");
-        let p = (results[2][i] * 100).toLocaleString('en-US', {
+        let p = (result.p[i] * 100).toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -327,17 +348,20 @@ mulberry.calculate = function () {
 
 mulberry.RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
 
+
 // Populate the retail outlet with a retail outlet
 mulberry.populateRetailOutlet = function () {
-    document.getElementById("retail-outlet").innerText = mulberry.RETAIL_OUTLETS[Math.floor(Math.random() * mulberry.RETAIL_OUTLETS.length)];
+    let retailOutlet = mulberry.RETAIL_OUTLETS[
+        Math.floor(Math.random() * mulberry.RETAIL_OUTLETS.length)
+    ];
+    document.getElementById("retail-outlet").innerText = retailOutlet;
 }
+
 
 // Runs on page load
 mulberry.initialize = function () {
     // Populate the input area with some random colleges
-    for (let _ = 0; _ < 5; _++) {
-        mulberry.addCollegeEntry();
-    }
+    for (let _ = 0; _ < 5; _++) { mulberry.addCollegeEntry(); }
 
     mulberry.populateRetailOutlet();
 }
