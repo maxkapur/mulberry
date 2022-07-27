@@ -53,7 +53,7 @@ mulberry.newCollegeWithChecks = function (name, f, t) {
 
 // For generating random colleges
 mulberry.ADJECTIVES = "Absolute Basic Cowardly Dusty Eternal First Gorgeous Helluva Insincere Just Kramer Last Moldy Northernmost Overrated Practical Questionable Wicked XYZ Yesterday Zealous".split(' ')
-mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Conservatory,Academy,Police Academy,Polytechnic,Seminary".split(",")
+mulberry.NOUNS = "College,University,Institute of Technology,Arts Institute,Performance Institute,School of Dentistry,Conservatory,Academy,Police Academy,Polytechnic,Seminary,Ashram,Hermitage".split(",")
 
 
 // Generate a random college name to serve as a placeholder for user input
@@ -320,6 +320,18 @@ mulberry.calculate = function () {
     document.getElementById("results-outro-text").hidden = false;
 }
 
+// Toggle math background visibility
+mulberry.toggleMathBackground = function () {
+    if (document.getElementById("math-background").hidden) {
+        document.getElementById("math-background").hidden = false;
+        document.getElementById("math-background-toggle").innerText =
+            "📐 Hide mathematical background";
+    } else {
+        document.getElementById("math-background").hidden = true;
+        document.getElementById("math-background-toggle").innerText =
+            "🧮 Show mathematical background";
+    }
+}
 
 mulberry.RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
 
