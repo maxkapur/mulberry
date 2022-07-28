@@ -100,6 +100,9 @@ input[type="range"]:hover {
     border-color: var(--berry);
 }
 
+.katex {
+    line-height: 0.9 !important;
+}
 
 /* Particular elements, roughly in order of appearance */
 div.container {
