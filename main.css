@@ -30,7 +30,7 @@ h1,
 h2,
 h3,
 h4 {
-    margin: 2em 0 5px;
+    margin: 2rem 0 5px;
     font-weight: 500;
     max-width: 600px;
 }
@@ -44,7 +44,7 @@ subtitle {
 
 
 p {
-    margin: 0.5em 0;
+    margin: 0.6rem 0;
     max-width: 600px;
 }
 
@@ -149,13 +149,13 @@ div.name-input-wrapper input[type="string"] {
 
 div.f-input-wrapper {
     display: grid;
-    grid-template-columns: auto 3em;
+    grid-template-columns: auto 3rem;
     padding-right: 15px;
 }
 
 div.t-input-wrapper {
     display: grid;
-    grid-template-columns: auto 2.5em;
+    grid-template-columns: auto 2.5rem;
 }
 
 div.t-input-wrapper input[type="range"],
@@ -195,7 +195,7 @@ div.f-input-wrapper label {
 
 div.result-labels-wrapper {
     display: grid;
-    grid-template-columns: auto 5em;
+    grid-template-columns: auto 5rem;
 }
 
 
@@ -203,8 +203,8 @@ div.result-labels-wrapper {
     display: block;
     list-style-type: decimal;
     margin: 15px 0;
-    padding-left: 2em;
-    max-width: calc(600px - 2em);
+    padding-left: 2rem;
+    max-width: calc(600px - 2rem);
 }
 
 /* Remove "0." on header row */
