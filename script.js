@@ -320,19 +320,6 @@ mulberry.calculate = function () {
     document.getElementById("results-outro-text").hidden = false;
 }
 
-// Toggle math background visibility
-mulberry.toggleMathBackground = function () {
-    if (document.getElementById("math-background").hidden) {
-        document.getElementById("math-background").hidden = false;
-        document.getElementById("math-background-toggle").innerText =
-            "📐 Hide mathematical background";
-    } else {
-        document.getElementById("math-background").hidden = true;
-        document.getElementById("math-background-toggle").innerText =
-            "🧮 Show mathematical background";
-    }
-}
-
 mulberry.RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
 
 
