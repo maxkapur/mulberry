@@ -12,23 +12,27 @@
     <script src="script.js" defer></script>
 
     <!-- KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"
+        integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"
+        integrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4OPoNhVgjdGFwhvN02Ja"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             renderMathInElement(document.body, {
-              // customised options
-              // • auto-render specific keys, e.g.:
-              delimiters: [
-                  {left: '$$', right: '$$', display: true},
-                  {left: '$', right: '$', display: false},
-                  {left: '\\(', right: '\\)', display: false},
-                  {left: '\\[', right: '\\]', display: true}
-              ],
-              // • rendering keys, e.g.:
-              throwOnError : false
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
             });
         });
     </script>
@@ -47,7 +51,7 @@
 <body onload="mulberry.initialize()">
     <div class="container">
         <h1>Mulberry</h1>
-        <subtitle>A free college application strategist.</subtitle>
+        <div class="subtitle">A free college application strategist.</div>
 
         <noscript>
             <p>
@@ -97,20 +101,31 @@
         </p>
 
         <div class="interface-container">
-            <ul id="school-input-area">
-                <li class="school-entry-row">
-                    <label class="school-entry-header" for="name-input">🏛️  School name</label>
-                    <label class="school-entry-header" for="f-input">🎲 Admissions probability</label>
-                    <label class="school-entry-header" for="t-input">💰 Utility value</label>
-                </li>
-            </ul>
+            <table class="school-input-area">
+                <thead>
+                    <tr>
+                        <th class="col1">
+                            <label class="school-entry-header" for="name-input">🏛️ School name</label>
+                        </th>
+                        <th class="col2">
+                            <label class="school-entry-header" for="f-input">🎲 Admissions probability</label>
+                        </th>
+                        <th class="col3">
+                            <label class="school-entry-header" for="t-input">💰 Utility value</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="school-input-table-body">
 
-            <div class="add-remove-school">
+                </tbody>
+            </table>
+
+            <div class="button-row">
                 <button id="add-school-button" onclick="mulberry.addCollegeEntry()">➕ Add a school</button>
                 <button id="remove-school-button" onclick="mulberry.removeCollegeEntry()">➖ Remove a school</button>
             </div>
 
-            <div id="calculate-button-wrapper">
+            <div class="button-row">
                 <button type="submit" onclick="mulberry.calculate()">🪄 Calculate application order</button>
             </div>
         </div>
@@ -131,7 +146,7 @@
                 <p>
                     If you can only apply to $n$ colleges, you should apply to the
                     first $n$ colleges listed above.
-                    Your expected utility with this application strategy, assuming you 
+                    Your expected utility with this application strategy, assuming you
                     enroll in the best college you get into, appears in the second column.
                 </p>
             </div>
@@ -149,14 +164,14 @@
 
         <details>
             <summary>
-                🧮  Mathematical background
+                🧮 Mathematical background
             </summary>
             <p>
                 Suppose there are $m$ schools overall, and let $t_j$ denote
                 the utility value for school $j$ and $f_j$ its admissions probability.
                 We can order the schools so that $t_1 \leq \cdots \leq t_m$.
             </p>
-            
+
             <p>
                 Let’s use $\mathcal{X}$ to denote the set of schools we apply to.
                 If $j \in \mathcal{X}$, then the probability $p_j$ of attending
@@ -164,30 +179,30 @@
                 all the schools better than $j$, times the probability of getting
                 <em>accepted</em> to school $j$:
             </p>
-            
+
             <p>
                 $$p_j(\mathcal{X})
                 = f_j \prod_{\substack{i \in \mathcal{X}:\\ i > j}} (1 - f_i)$$
             </p>
-            
+
             <p>
                 The utility achieved by applying to the schools in $\mathcal{X}$
                 is then $t_j$ with probability $p_j(\mathcal{X})$, and the
                 expected utility
             </p>
-            
+
             <p>
                 $$\begin{align*}
-                v(\mathcal{X}) 
+                v(\mathcal{X})
                 &= \sum_{j \in \mathcal{X}} t_j p_j(\mathcal{X}) \\
                 &= \sum_{j \in \mathcal{X}} t_j f_j
                 \Bigl(\prod_{\substack{i \in \mathcal{X}:\\ i > j}} (1 - f_i)\Bigr)
                 \end{align*}$$
             </p>
-            
+
             <p>
                 is what Mulberry maximizes. This function has some cool properties.
-                For example, it is a 
+                For example, it is a
                 <a href="https://en.wikipedia.org/wiki/Submodular_set_function">submodular set function</a>.
             </p>
         </details>

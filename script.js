@@ -149,24 +149,24 @@ mulberry.computeApplicationOrder = function (colleges) {
 
 // Building blocks for a college input row:
 // Name entry
-mulberry.makeNameInputWrapper = function (j, name) {
-    let nameInputWrapper = document.createElement("div");
-    nameInputWrapper.setAttribute("id", `name-input-wrapper-${j}`);
-    nameInputWrapper.setAttribute("class", "name-input-wrapper");
+mulberry.makeNameInputCell = function (j, name) {
+    let nameInputCell = document.createElement("td");
+    nameInputCell.setAttribute("id", `name-input-wrapper-${j}`);
+    nameInputCell.setAttribute("class", "name-input-wrapper");
     let nameInput = document.createElement("input");
     nameInput.setAttribute("type", "string");
     nameInput.setAttribute("value", name);
     nameInput.setAttribute("name", "name-input");
-    nameInputWrapper.appendChild(nameInput);
-    return nameInputWrapper;
+    nameInputCell.appendChild(nameInput);
+    return nameInputCell;
 }
 
 
 // Admit probability entry
-mulberry.makeFInputWrapper = function (j, f) {
-    let fInputWrapper = document.createElement("div");
-    fInputWrapper.setAttribute("id", `f-input-wrapper-${j}`)
-    fInputWrapper.setAttribute("class", "f-input-wrapper");
+mulberry.makeFInputCell = function (j, f) {
+    let fInputCell = document.createElement("td");
+    fInputCell.setAttribute("id", `f-input-wrapper-${j}`)
+    fInputCell.setAttribute("class", "f-input-wrapper");
     let fInput = document.createElement("input");
     fInput.setAttribute("type", "range");
     fInput.setAttribute("min", "1");
@@ -175,19 +175,19 @@ mulberry.makeFInputWrapper = function (j, f) {
     fInput.setAttribute("value", f);
     fInput.setAttribute("oninput", `mulberry.updateFLabel(${j})`);
     fInput.setAttribute("name", "f-input");
-    fInputWrapper.appendChild(fInput);
+    fInputCell.appendChild(fInput);
     let fInputLabel = document.createElement("label");
     fInputLabel.innerText = `${f}%`;
-    fInputWrapper.appendChild(fInputLabel);
-    return fInputWrapper;
+    fInputCell.appendChild(fInputLabel);
+    return fInputCell;
 }
 
 
 // Utility entry
-mulberry.makeTInputWrapper = function (j, t) {
-    let tInputWrapper = document.createElement("div");
-    tInputWrapper.setAttribute("id", `t-input-wrapper-${j}`)
-    tInputWrapper.setAttribute("class", "t-input-wrapper");
+mulberry.makeTInputCell = function (j, t) {
+    let tInputCell = document.createElement("td");
+    tInputCell.setAttribute("id", `t-input-wrapper-${j}`)
+    tInputCell.setAttribute("class", "t-input-wrapper");
     let tInput = document.createElement("input");
     tInput.setAttribute("type", "range");
     tInput.setAttribute("min", "1");
@@ -196,11 +196,11 @@ mulberry.makeTInputWrapper = function (j, t) {
     tInput.setAttribute("value", t);
     tInput.setAttribute("oninput", `mulberry.updateTLabel(${j})`);
     tInput.setAttribute("name", "t-input");
-    tInputWrapper.appendChild(tInput)
+    tInputCell.appendChild(tInput)
     let tInputLabel = document.createElement("label");
     tInputLabel.innerText = `${t}`;
-    tInputWrapper.appendChild(tInputLabel);
-    return tInputWrapper;
+    tInputCell.appendChild(tInputLabel);
+    return tInputCell;
 }
 
 
@@ -221,16 +221,16 @@ mulberry.updateTLabel = function (j) {
 // Generate a new college entry row, with HTML element identifier j
 // for later selection
 mulberry.newCollegeEntryWithIdx = function (j) {
-    let newCollegeEntry = document.createElement("li");
+    let newCollegeEntry = document.createElement("tr");
     newCollegeEntry.setAttribute("class", "school-entry-row");
 
     let name = mulberry.randomCollegeName();
     let f = Math.ceil(100 * Math.sqrt(Math.random()));
     let t = 3 * f + Math.ceil(200 * Math.random());
 
-    newCollegeEntry.appendChild(mulberry.makeNameInputWrapper(j, name));
-    newCollegeEntry.appendChild(mulberry.makeFInputWrapper(j, f));
-    newCollegeEntry.appendChild(mulberry.makeTInputWrapper(j, t));
+    newCollegeEntry.appendChild(mulberry.makeNameInputCell(j, name));
+    newCollegeEntry.appendChild(mulberry.makeFInputCell(j, f));
+    newCollegeEntry.appendChild(mulberry.makeTInputCell(j, t));
 
     return newCollegeEntry;
 }
@@ -246,7 +246,7 @@ mulberry.collegeIdxs = [];
 mulberry.addCollegeEntry = function () {
     let j = mulberry.collegeCounter;
     mulberry.collegeIdxs.push(j);
-    document.getElementById("school-input-area").appendChild(
+    document.getElementById("school-input-table-body").appendChild(
         mulberry.newCollegeEntryWithIdx(j)
     );
     mulberry.collegeCounter++;
@@ -257,9 +257,9 @@ mulberry.addCollegeEntry = function () {
 // When the user clicks the remove college button
 mulberry.removeCollegeEntry = function () {
     if (mulberry.collegeIdxs.length > 0) {
-        let lastEntry = document.getElementById("school-input-area").lastElementChild;
+        let lastEntry = document.getElementById("school-input-table-body").lastElementChild;
         mulberry.collegeIdxs.pop();
-        document.getElementById("school-input-area").removeChild(
+        document.getElementById("school-input-table-body").removeChild(
             lastEntry
         );
     }
