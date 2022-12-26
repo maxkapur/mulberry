@@ -50,8 +50,10 @@
 
 <body onload="mulberry.initialize()">
     <div class="container">
-        <h1>Mulberry</h1>
-        <div class="subtitle">A free college application strategist.</div>
+        <header>
+            <h1>Mulberry</h1>
+            <p>A free college application strategist.</p>
+        </header>
 
         <noscript>
             <p>
@@ -101,17 +103,17 @@
         </p>
 
         <div class="interface-container">
-            <table class="school-input-area">
+            <table class="school-input-table">
                 <thead>
                     <tr>
-                        <th class="col1">
-                            <label class="school-entry-header" for="name-input">🏛️ School name</label>
+                        <th>
+                            <label for="name-input">🏛️ School name</label>
                         </th>
-                        <th class="col2">
-                            <label class="school-entry-header" for="f-input">🎲 Admissions probability</label>
+                        <th class="double">
+                            <label for="f-input">🎲 Admissions probability</label>
                         </th>
-                        <th class="col3">
-                            <label class="school-entry-header" for="t-input">💰 Utility value</label>
+                        <th class="double">
+                            <label for="t-input">💰 Utility value</label>
                         </th>
                     </tr>
                 </thead>
@@ -126,30 +128,31 @@
             </div>
 
             <div class="button-row">
-                <button type="submit" onclick="mulberry.calculate()">🪄 Calculate application order</button>
+                <button id="calculate-button" type="submit" onclick="mulberry.calculate()">🪄 Calculate application
+                    order</button>
             </div>
         </div>
 
         <h2>Results</h2>
-        <div id="results-area-wrapper">
-            <p id="results-will-appear-here">… will appear here.</p>
-            <p id="results-intro-text" hidden>Your optimal application order:</p>
+        <div id="results-placeholder-text">
+            <p>… will appear here.</p>
+        </div>
+        <div id="results-wrapper" style="display: none;">
+            <p>Your optimal application order:</p>
             <ol id="results-list" start="0">
-                <li id="results-header-row" hidden>
-                    <div class="result-labels-wrapper">
-                        <label class="name-result" for="name-result">School</label>
-                        <label class="v-result" for="v-result">Utility</label>
+                <li id="results-header-row">
+                    <div>
+                        <label for="name-result">School</label>
+                        <label for="v-result">Utility</label>
                     </div>
                 </li>
             </ol>
-            <div id="results-outro-text" hidden>
-                <p>
-                    If you can only apply to $n$ colleges, you should apply to the
-                    first $n$ colleges listed above.
-                    Your expected utility with this application strategy, assuming you
-                    enroll in the best college you get into, appears in the second column.
-                </p>
-            </div>
+            <p>
+                If you can only apply to $n$ colleges, you should apply to the
+                first $n$ colleges listed above.
+                Your expected utility with this application strategy, assuming you
+                enroll in the best college you get into, appears in the second column.
+            </p>
         </div>
 
         <h2>How does the algorithm work?</h2>
@@ -222,7 +225,7 @@
         <p>
             The interesting thing is that the optimal permutation is <em>not</em>
             determined by simply sorting the schools by the products of their admissions probability
-            and utility values. <strong>Mathematically, we can show that “obvious“ idea is
+            and utility values. <strong>Mathematically, we can show that this “obvious“ idea is
                 incorrect</strong>—it can produce
             a suboptimal result. To get the true optimum, you need to delve into
             the conditional probabilities described above, and that’s exactly what

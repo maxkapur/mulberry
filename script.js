@@ -152,7 +152,6 @@ mulberry.computeApplicationOrder = function (colleges) {
 mulberry.makeNameInputCell = function (j, name) {
     let nameInputCell = document.createElement("td");
     nameInputCell.setAttribute("id", `name-input-wrapper-${j}`);
-    nameInputCell.setAttribute("class", "name-input-wrapper");
     let nameInput = document.createElement("input");
     nameInput.setAttribute("type", "string");
     nameInput.setAttribute("value", name);
@@ -165,8 +164,7 @@ mulberry.makeNameInputCell = function (j, name) {
 // Admit probability entry
 mulberry.makeFInputCell = function (j, f) {
     let fInputCell = document.createElement("td");
-    fInputCell.setAttribute("id", `f-input-wrapper-${j}`)
-    fInputCell.setAttribute("class", "f-input-wrapper");
+    fInputCell.setAttribute("id", `f-input-wrapper-${j}`);
     let fInput = document.createElement("input");
     fInput.setAttribute("type", "range");
     fInput.setAttribute("min", "1");
@@ -177,6 +175,7 @@ mulberry.makeFInputCell = function (j, f) {
     fInput.setAttribute("name", "f-input");
     fInputCell.appendChild(fInput);
     let fInputLabel = document.createElement("label");
+    fInputLabel.classList.add("numeric-label");
     fInputLabel.innerText = `${f}%`;
     fInputCell.appendChild(fInputLabel);
     return fInputCell;
@@ -186,8 +185,7 @@ mulberry.makeFInputCell = function (j, f) {
 // Utility entry
 mulberry.makeTInputCell = function (j, t) {
     let tInputCell = document.createElement("td");
-    tInputCell.setAttribute("id", `t-input-wrapper-${j}`)
-    tInputCell.setAttribute("class", "t-input-wrapper");
+    tInputCell.setAttribute("id", `t-input-wrapper-${j}`);
     let tInput = document.createElement("input");
     tInput.setAttribute("type", "range");
     tInput.setAttribute("min", "1");
@@ -198,6 +196,7 @@ mulberry.makeTInputCell = function (j, t) {
     tInput.setAttribute("name", "t-input");
     tInputCell.appendChild(tInput)
     let tInputLabel = document.createElement("label");
+    tInputLabel.classList.add("numeric-label");
     tInputLabel.innerText = `${t}`;
     tInputCell.appendChild(tInputLabel);
     return tInputCell;
@@ -222,7 +221,6 @@ mulberry.updateTLabel = function (j) {
 // for later selection
 mulberry.newCollegeEntryWithIdx = function (j) {
     let newCollegeEntry = document.createElement("tr");
-    newCollegeEntry.setAttribute("class", "school-entry-row");
 
     let name = mulberry.randomCollegeName();
     let f = Math.ceil(100 * Math.sqrt(Math.random()));
@@ -250,7 +248,8 @@ mulberry.addCollegeEntry = function () {
         mulberry.newCollegeEntryWithIdx(j)
     );
     mulberry.collegeCounter++;
-    document.getElementById("remove-school-button").hidden = false;
+    document.getElementById("remove-school-button").disabled = false;
+    document.getElementById("calculate-button").disabled = false;
 }
 
 
@@ -265,7 +264,8 @@ mulberry.removeCollegeEntry = function () {
     }
 
     if (mulberry.collegeIdxs.length == 0) {
-        document.getElementById("remove-school-button").hidden = true;
+        document.getElementById("remove-school-button").disabled = true;
+        document.getElementById("calculate-button").disabled = true;
     }
 }
 
@@ -283,25 +283,23 @@ mulberry.newCollegeFromJ = function (j, _) {
 // Pass the input colleges to the solver and output results in results area
 mulberry.calculate = function () {
     let resultsHeaderRow = document.getElementById("results-header-row");
-    resultsHeaderRow.hidden = false;
-    let resultsList = document.getElementById("results-list")
+    let resultsList = document.getElementById("results-list");
     resultsList.innerText = "";
     resultsList.appendChild(resultsHeaderRow);
 
     const colleges = mulberry.collegeIdxs.map(mulberry.newCollegeFromJ);
     const result = mulberry.computeApplicationOrder(colleges);
 
-    document.getElementById("results-will-appear-here").hidden = true;
-    document.getElementById("results-intro-text").hidden = false;
+    document.getElementById("results-placeholder-text").style.setProperty("display", "none");
+    document.getElementById("results-wrapper").style.setProperty("display", "block");
 
     for (let i = 0; i < mulberry.collegeIdxs.length; i++) {
         let resultX = document.createElement("label");
-        resultX.setAttribute("class", "name-result");
         resultX.setAttribute("name", "name-result");
         resultX.innerText = result.names[i];
 
         let resultV = document.createElement("label");
-        resultV.setAttribute("class", "v-result");
+        resultV.classList.add("numeric-label");
         resultV.setAttribute("name", "v-result");
         resultV.innerText = result.v[i].toLocaleString('en-US', {
             minimumFractionDigits: 2,
@@ -310,14 +308,11 @@ mulberry.calculate = function () {
 
         let resultRow = document.createElement("li");
         let resultLabelsWrapper = document.createElement("div");
-        resultLabelsWrapper.setAttribute("class", "result-labels-wrapper");
         resultLabelsWrapper.appendChild(resultX);
         resultLabelsWrapper.appendChild(resultV);
         resultRow.appendChild(resultLabelsWrapper)
         resultsList.appendChild(resultRow);
     }
-
-    document.getElementById("results-outro-text").hidden = false;
 }
 
 mulberry.RETAIL_OUTLETS = "at 7/11,at Best Buy,at Radioshack,at Target,at Subway,at Chipotle,on Steam,on Craigslist,at Home Depot,in the greeting cards aisle".split(",")
