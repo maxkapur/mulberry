@@ -34,7 +34,7 @@ h1,
 h2,
 h3,
 h4 {
-    margin: 2rem 0 5px;
+    margin-top: 2rem;
     font-weight: 500;
 }
 
@@ -61,7 +61,8 @@ a {
 }
 
 
-a:hover {
+a:hover,
+a:active {
     text-decoration: underline;
 }
 
@@ -86,6 +87,12 @@ button {
 }
 
 
+button:active,
+input:focus {
+    box-shadow: inset 0 0 1px black;
+}
+
+
 input[type="string"] {
     border: 1px solid var(--leaf-dark);
     padding: 5px;
@@ -93,11 +100,12 @@ input[type="string"] {
     font-size: 14px;
 }
 
-
 button:hover,
+button:active,
 input[type="string"]:hover,
-input[type="range"]:hover,
-details:not([open]):hover {
+input[type="string"]:focus,
+details:not([open]):hover,
+details:not([open]):active {
     border-color: var(--berry);
 }
 
@@ -109,7 +117,6 @@ details:not([open]):hover {
 /* Particular elements, roughly in order of appearance */
 .logo-wrapper {
     text-align: center;
-    /* max-width: 600px; */
 }
 
 .logo-wrapper img {
@@ -158,6 +165,12 @@ details:not([open]):hover {
 
 .school-input-area td > input {
     flex-grow: 1;
+}
+
+.school-input-area td > label {
+    font-feature-settings: 'tnum';
+    -webkit-font-feature-settings: 'tnum';
+    -moz-font-feature-settings: 'tnum';
 }
 
 .interface-container .button-row {
@@ -214,7 +227,7 @@ details {
 
 details > summary { 
     cursor: pointer;
-} 
+}
 
 
 /* Large screens */
