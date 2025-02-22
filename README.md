@@ -20,4 +20,4 @@ Logo derived from a Wikimedia Commons image by
 ## Bugs, questions, comments
 
 Submit a PR on GitHub or email me at
-[maxkapur@gmail.com](mailto:maxkapur@gmail.com).
+[max@maxkapur.com](mailto:maxkapur@gmail.com).
