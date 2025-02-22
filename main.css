@@ -202,7 +202,7 @@ details {
     background-color: var(--leaf-light);
 }
 
-details > summary { 
+details > summary {
     cursor: pointer;
 }
 
